@@ -1,0 +1,475 @@
+/* index.css */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to right,
+            #00ffff 0%,
+            #00cfcf 5%,
+            #36393e 20%,
+            #36393e 80%,
+            #c000c0 95%,
+            #ff00ff 100%);
+    color: white;
+}
+
+/* HEADER */
+
+.header-wrapper {
+    background: linear-gradient(to bottom, #2e2e2e, gray, lightslategrey);
+    background-size: 100% 300%;
+    animation: gradientMove 8s ease infinite;
+}
+
+@keyframes gradientMove {
+    0% {
+        background-position: 0% 0%;
+    }
+
+    50% {
+        background-position: 0% 100%;
+    }
+
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 2rem;
+    height: 120px;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo img {
+    height: 100px;
+}
+
+.logo h1 {
+    font-size: 4rem;
+    background: linear-gradient(45deg, #00ffff, #ff00ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0;
+    padding-bottom: 12px;
+}
+
+.icons {
+    margin-right: 40px;
+}
+
+.icons a {
+    color: black;
+    font-size: 2rem;
+    margin-left: 1.5rem;
+    text-shadow: 0 0 1px white, 0 0 2px white;
+    transition: transform 0.2s, text-shadow 0.3s, color 0.3s;
+}
+
+.icons a:hover {
+    transform: scale(1.2);
+    text-shadow: 0 0 3px #ff00ff, 0 0 6px #00ffff;
+}
+
+/*FINE HEADER*/
+
+.nocol {
+    color: inherit;
+    text-decoration: none;
+}
+
+.image-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+}
+
+
+.card img {
+    width: 100%;
+    border-radius: 8px;
+    height: 400px;
+    object-fit: contain;
+}
+
+.highlight-section img {
+    max-width: 550px;
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.highlight-text h3 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.highlight-text p {
+    font-size: 1.1rem;
+}
+
+
+.gradient-border {
+    background: linear-gradient(90deg, #00c3ff, #8e2de2);
+    padding: 3px;
+    border-radius: 12px;
+    display: inline-block;
+    margin: 20px;
+    margin-top: 30px;
+}
+
+.card-inner {
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+    height: 100%;
+    transition: transform 1s ease, box-shadow 1s ease, background 1s ease;
+}
+
+.card-inner:hover {
+    transform: translateY(-4px);
+    background: linear-gradient(135deg, #1a1a1a, #0044ff);
+}
+
+.card-inner:active {
+    transform: scale(0.97);
+    box-shadow: inset 0 0 20px rgba(0, 68, 255, 0.6);
+}
+
+.card-inner h3 {
+    font-size: 2rem;
+}
+
+.card-inner img {
+    max-width: 450px;
+}
+
+.card-img {
+    max-width: 90%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Titolo gradient */
+.section-header.with-lines {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    position: relative;
+    margin-top: 1rem;
+}
+
+.gradient-title {
+    font-size: 2rem;
+    font-weight: bold;
+    background: linear-gradient(to right, #00ffff, #ff00ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    white-space: nowrap;
+}
+
+.line {
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(to right, #00ffff, #ff00ff);
+    opacity: 0.6;
+}
+
+/* Stile card compatta */
+.game-card {
+    width: 300px;
+    overflow: hidden;
+    background-color: #1a1a1a;
+    position: relative;
+    border: 2px solid transparent;
+    border-image: linear-gradient(to right, #ff00ff, #00ffff) 1;
+}
+
+.game-card img {
+    width: 100%;
+    height: 175px;
+}
+
+/* Immagine compatta */
+.game-image {
+    object-fit: cover;
+    background: linear-gradient(to right, #00ffff, #ff00ff);
+}
+
+.game-title {
+    font-weight: 700;
+    justify-self: center;
+}
+
+/* Prezzi */
+.price-section {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-left: 15px;
+    border-top: solid 2px #ff00ff;
+    padding-top: 5px;
+}
+
+.current-price {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.original-price {
+    font-size: 12px;
+    color: #999;
+    text-decoration: line-through;
+    font-size: 14px;
+}
+
+/* Bottone */
+.add-to-cart-btn {
+    width: 100%;
+    padding: 6px;
+    background: linear-gradient(270deg, #00ffff, #ff00ff, #00ffff);
+    background-size: 600% 600%;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-position 1.5s ease;
+}
+
+.add-to-cart-btn:hover {
+    background-position: right center;
+}
+
+/* Sconto */
+.discount-tag {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: #ff4757;
+    color: white;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+/* Container principale */
+.most-wanted-section {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 20px;
+    padding-bottom: 5px;
+    margin-bottom: 30px;
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+}
+
+/* Container delle card - layout orizzontale */
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+
+.news-image img {
+    height: 100%;
+    width: 320px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.news-text h3 {
+    margin: 0 0 1rem;
+    font-size: 2rem;
+    line-height: 1.2;
+}
+
+/* SEZIONE BANNER SHIPPING */
+.width-300 {
+    width: 900px;
+    justify-self: center;
+}
+
+.shipping-banner {
+    background-color: #f0c14b;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    align-items: center;
+    font-family: sans-serif;
+    margin-bottom: 12px;
+}
+
+.shipping-text {
+    font-size: 1.2rem;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.shipping-button .btn {
+    background-color: #ffa500;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 22px;
+    transition: transform 0.2s;
+    text-align: center;
+}
+
+@keyframes shake {
+    0% {
+        transform: translate(0px);
+    }
+
+    20% {
+        transform: translate(-3px);
+    }
+
+    40% {
+        transform: translate(3px);
+    }
+
+    60% {
+        transform: translate(-3px);
+    }
+
+    80% {
+        transform: translate(3px);
+    }
+
+    100% {
+        transform: translate(0px);
+    }
+}
+
+.vibrate {
+    animation: shake 1s;
+}
+
+/* SEZIONE FOOTER */
+.footer {
+    background: linear-gradient(to top, #080808, #2d2d2d);
+    color: white;
+    padding: 2rem 1rem;
+    font-family: 'Segoe UI', sans-serif;
+
+    border-top: 4px solid;
+    border-image: linear-gradient(to right, #ff00ff, #00ffff) 1;
+}
+
+.footer-top,
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    padding: 1rem 0;
+}
+
+.footer-col {
+    flex: 1 1 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+}
+
+.footer-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-col ul li {
+    margin: 0.3rem 0;
+}
+
+.footer-col h3 {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 2px;
+}
+
+.footer-col h3::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 100%;
+    background: linear-gradient(to right, #00ffff, #ff00ff);
+    border-radius: 1px;
+}
+
+.footer a {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+.logo {
+    flex-direction: row;
+    gap: 0.5rem;
+}
+
+.site-name {
+    font-size: 2.5rem;
+    font-weight: bold;
+    background: linear-gradient(45deg, #00ffff, #ff00ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.payment-icons i,
+.social-icons a i {
+    font-size: 2.5rem;
+    margin: 0 0.5rem;
+    background: linear-gradient(to right, #ff00ff, #00ffff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% auto;
+    transition: background-position 0.5s ease, transform 0.3s;
+}
+
+.payment-icons i:hover,
+.social-icons a i:hover {
+    background-position: right center;
+    transform: scale(1.2);
+}
+
+.payment-icons {
+    display: flex;
+    flex-direction: column;
+}
+
+.copyright {
+    color: lightslategrey;
+}
