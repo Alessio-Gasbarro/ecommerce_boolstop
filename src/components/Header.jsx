@@ -11,9 +11,12 @@ export default function Header() {
                     <h1>BoolStop</h1>
                 </div>
                 <nav className="icons">
-                    <a href="#"><i className="fas fa-user"></i></a>
+                    <input
+                        type="text"
+                        placeholder="Cerca..."
+                        className="search-bar"
+                    />
                     <a href="#"><i className="fas fa-shopping-cart"></i></a>
-                    <a href="#"><i className="fas fa-headset"></i></a>
                 </nav>
             </header>
         </div>

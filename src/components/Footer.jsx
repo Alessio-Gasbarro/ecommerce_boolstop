@@ -10,9 +10,9 @@ const Footer = () => {
                 <div className="footer-col">
                     <ul>
                         <li><h3>Informazioni Generali</h3></li>
-                        <li><a href="#">Link Chi siamo</a></li>
-                        <li><a href="#">Link Informazione Spedizione</a></li>
-                        <li><a href="#">Link 3 </a></li>
+                        <li><a href="#">Link Test 1</a></li>
+                        <li><a href="#">Link Test 2</a></li>
+                        <li><a href="#">Link Test 3</a></li>
                     </ul>
                 </div>
 
@@ -23,9 +23,6 @@ const Footer = () => {
                     <div>
                         <i className="fab fa-cc-visa"></i>
                         <i className="fab fa-cc-mastercard"></i>
-                        <i className="fab fa-cc-paypal"></i>
-                        <i className="fab fa-google-pay"></i>
-                        <i className="fab fa-apple-pay"></i>
                     </div>
                 </div>
 

@@ -65,12 +65,16 @@ body {
 }
 
 .icons {
-    margin-right: 40px;
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-right: 5rem;
 }
 
 .icons a {
     color: black;
-    font-size: 2rem;
+    font-size: 2.5rem;
     margin-left: 1.5rem;
     text-shadow: 0 0 1px white, 0 0 2px white;
     transition: transform 0.2s, text-shadow 0.3s, color 0.3s;
@@ -81,7 +85,22 @@ body {
     text-shadow: 0 0 3px #ff00ff, 0 0 6px #00ffff;
 }
 
-/*FINE HEADER*/
+.search-bar {
+    padding: 0.8rem 1.2rem;
+    font-size: 1.3rem;
+    border-radius: 25px;
+    border: 1px solid #ccc;
+    outline: none;
+    transition: box-shadow 0.3s ease;
+    width: 250px;
+}
+
+.search-bar:focus {
+    box-shadow: 0 0 5px #00ffff;
+    border-color: #00ffff;
+}
+
+/*SEZIONE HOME PULSANTE*/
 
 .nocol {
     color: inherit;
@@ -90,17 +109,65 @@ body {
 
 .image-grid {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     gap: 1rem;
+    padding: 2rem 0;
 }
-
 
 .card img {
     width: 100%;
     border-radius: 8px;
     height: 400px;
     object-fit: contain;
+}
+
+.gradient-border {
+    background: linear-gradient(90deg, #00c3ff, #8e2de2);
+    padding: 3px;
+    border-radius: 12px;
+    display: inline-block;
+    margin: 1rem 0;
+    width: 100%;
+    max-width: 800px;
+}
+
+.card-inner {
+    display: flex;
+    align-items: center;
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    height: 100px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.card-inner:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #1a1a1a, #0044ff);
+}
+
+.card-inner:active {
+    transform: scale(0.98);
+    box-shadow: inset 0 0 10px rgba(0, 68, 255, 0.6);
+}
+
+.card-inner h3 {
+    font-size: 1.5rem;
+    color: white;
+    margin: 0;
+}
+
+.card-inner img {
+    max-width: 450px;
+}
+
+.card-img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    border-radius: 8px;
+    margin-right: 1.5rem;
 }
 
 .highlight-section img {
@@ -113,54 +180,6 @@ body {
 .highlight-text h3 {
     font-size: 2rem;
     margin-bottom: 1rem;
-}
-
-.highlight-text p {
-    font-size: 1.1rem;
-}
-
-
-.gradient-border {
-    background: linear-gradient(90deg, #00c3ff, #8e2de2);
-    padding: 3px;
-    border-radius: 12px;
-    display: inline-block;
-    margin: 20px;
-    margin-top: 30px;
-}
-
-.card-inner {
-    background-color: #1a1a1a;
-    border-radius: 10px;
-    padding: 1rem;
-    text-align: center;
-    height: 100%;
-    transition: transform 1s ease, box-shadow 1s ease, background 1s ease;
-}
-
-.card-inner:hover {
-    transform: translateY(-4px);
-    background: linear-gradient(135deg, #1a1a1a, #0044ff);
-}
-
-.card-inner:active {
-    transform: scale(0.97);
-    box-shadow: inset 0 0 20px rgba(0, 68, 255, 0.6);
-}
-
-.card-inner h3 {
-    font-size: 2rem;
-}
-
-.card-inner img {
-    max-width: 450px;
-}
-
-.card-img {
-    max-width: 90%;
-    height: auto;
-    display: block;
-    margin: 0 auto;
 }
 
 /* Titolo gradient */

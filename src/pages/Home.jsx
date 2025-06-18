@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 export default function Home() {
     //Questa const Serve per la "Sezione 3 Bottoni"
     const cardItems = [
-        { img: videogamesImg, alt: "Videogames", title: "VideoGames", link: "/videogames" }
+        { img: videogamesImg, alt: "Videogames", title: "Scopri qui, tutti i VideoGames!", link: "/videogames" }
     ];
 
     return (
