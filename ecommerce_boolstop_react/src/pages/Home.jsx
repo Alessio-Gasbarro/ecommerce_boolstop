@@ -36,7 +36,7 @@ export default function Home() {
             <section className="most-wanted-section">
                 <div className="section-header with-lines">
                     <div className="line" />
-                    <h2 className="gradient-title">Nuovi Arrivi Popolari</h2>
+                    <h2 className="gradient-title">Nuovi Arrivi Popolari del giorno</h2>
                     <div className="line" />
                 </div>
 
