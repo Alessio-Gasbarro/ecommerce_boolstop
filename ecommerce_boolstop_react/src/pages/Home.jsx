@@ -5,11 +5,12 @@ import { mostWanted, newArrivals } from '../data/data';
 import Shipping from '../components/Shipping';
 import Footer from '../components/Footer';;
 import { Link } from 'react-router-dom';
+import Videogames from './Videogames';
 
 export default function Home() {
     //Questa const Serve per la "Sezione 3 Bottoni"
     const cardItems = [
-        { img: videogamesImg, alt: "Videogames", title: "Scopri qui, tutti i VideoGames!", link: "/videogames" }
+        { img: videogamesImg, alt: "Videogames", title: "Scopri qui, tutti i VideoGames!", link: "" }
     ];
 
     return (
@@ -22,7 +23,7 @@ export default function Home() {
             <section className="image-grid">
                 {cardItems.map((item, index) => (
                     <div key={index}>
-                        <Link to={item.link} className="gradient-border nocol">
+                        <Link to={'/all'} className="gradient-border nocol">
                             <div className="card-inner">
                                 <img src={item.img} alt={item.alt} className="card-img" />
                                 <h3>{item.title}</h3>
