@@ -103,7 +103,7 @@ export default function Home() {
                                 <div className="price-section">
                                     <span className="current-price">{game.price}</span>
                                     {game.discount > 0 && (
-                                        <span className="original-price">{game.originalPrice}<i class="fa-solid fa-euro-sign"></i></span>
+                                        <span className="original-price">{game.originalPrice}<i className="fa-solid fa-euro-sign"></i></span>
                                     )}
                                 </div>
                                 <button className="add-to-cart-btn">ADD TO CART</button>
