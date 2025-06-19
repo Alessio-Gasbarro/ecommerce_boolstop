@@ -45,10 +45,43 @@ body {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.logo-text {
+    font-size: 4rem;
+    background: linear-gradient(45deg, #00ffff, #ff00ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 6px;
+}
+
+.logo-text::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #00ffff, #ff00ff);
+    background-size: 200% 100%;
+    background-position: 0% 0%;
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: background-position 0.7s ease-in-out, transform 0.3s ease;
+}
+
+.logo-text:hover::after {
+    background-position: 100% 0%;
+    transform: scaleX(1);
+}
+
 .logo {
     display: flex;
     align-items: center;
     gap: 1rem;
+    text-decoration: none;
+    color: inherit;
 }
 
 .logo img {
@@ -451,12 +484,6 @@ body {
     text-decoration: none;
 }
 
-
-.logo {
-    flex-direction: row;
-    gap: 0.5rem;
-}
-
 .site-name {
     font-size: 2.5rem;
     font-weight: bold;
@@ -602,10 +629,7 @@ body {
     margin: 5px;
     display: flex;
     background-color: lightslategray;
-    overflow: hidden;
-    box-sizing: border-box;
-    box-shadow: none;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-radius: 10px;
 }
 
 .game-image-horizontal {
@@ -613,6 +637,8 @@ body {
     height: 100%;
     object-fit: cover;
     display: block;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
 }
 
 .game-info {
@@ -660,7 +686,7 @@ body {
 }
 
 .original-price {
-    font-size: 0.9em;
+    font-size: 1.5em;
     color: black;
     text-decoration: line-through;
     margin-top: 5px;
@@ -679,6 +705,80 @@ body {
     font-size: 25px;
     font-weight: bold;
     color: white;
+}
+
+/*SELETTORE OPZIONI*/
+.sort-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 16px;
+    margin-left: 80px;
+}
+
+.sort-section label {
+    font-weight: 500;
+    color: white
+}
+
+.sort-section select {
+    padding: 6px 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.sort-section select:hover {
+    background-color: #f0f0f0;
+}
+
+.sort-section select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+}
+
+/*PAGINATION (FRECCE)*/
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin: 40px 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.pagination-arrow,
+.pagination-number {
+    padding: 8px 12px;
+    font-size: 16px;
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.pagination-arrow:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.pagination-number.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.pagination-arrow:hover:not(:disabled),
+.pagination-number:hover:not(.active) {
+    background-color: #e0e0e0;
 }
 
 /*style temporaneo basket*/
