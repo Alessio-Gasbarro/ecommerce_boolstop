@@ -3,7 +3,7 @@ const errorHandler = require('./middlewares/errorHandler'); // Middleware per la
 const notFound = require('./middlewares/notFound'); // Middleware per gestire le rotte non trovate
 const gamesRouter = require('./router/gamesRouter');// Importo il router dei giochi
 const connection = require('./data/db_games.js'); // Importo la connessione al database
-
+const cors = require("cors")//importo CORS (per accettare le richieste dal frontend)
 
 const app = express(); // Inizializzo l'app Express
 const PORT = process.env.SERVER_PORT || 3000; //Imposto la porta del server
@@ -19,7 +19,7 @@ connection.connect(err => {
 // Middlewares
 app.use(express.static('public'));
 app.use(express.json());  // Per il parsing dei body JSON
-
+app.use(cors({ origin: process.env.FE_APP || 'http://localhost:5173' })) //middleware CORS
 
 // Rotta base
 app.get('/', (req, res) => {
