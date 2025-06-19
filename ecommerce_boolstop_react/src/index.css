@@ -679,10 +679,12 @@ body {
     font-size: 25px;
     font-weight: bold;
     color: white;
-    /*style temporaneo basket*/
+}
 
-    .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-    }
+/*style temporaneo basket*/
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
