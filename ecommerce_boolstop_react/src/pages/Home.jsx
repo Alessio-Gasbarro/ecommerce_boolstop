@@ -35,7 +35,8 @@ export default function Home() {
 
     return (
         <>
-            <div className="width-300">
+            <Header />
+            <div className="centering">
                 <Shipping />
             </div>
             {/*Sezione Tasto per pagina VideoGames*/}

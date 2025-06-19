@@ -1,31 +1,37 @@
 import React, { useEffect, useRef } from 'react';
 
 const Shipping = () => {
-    const btnRef = useRef(null);
+    const textRef = useRef(null);
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            if (btnRef.current) {
-                btnRef.current.classList.add('vibrate');
-                setTimeout(() => {
-                    btnRef.current.classList.remove('vibrate');
-                }, 2000);
-            }
-        }, 3000);
+        const timeout = setTimeout(() => {
+            const interval = setInterval(() => {
+                if (textRef.current) {
+                    textRef.current.classList.add('vibrate');
+                    setTimeout(() => {
+                        if (textRef.current) {
+                            textRef.current.classList.remove('vibrate');
+                        }
+                    }, 1000);
+                }
+            }, 2000);
 
-        return () => clearInterval(interval);
+            return () => clearInterval(interval);
+        }, 0);
+
+        return () => clearTimeout(timeout);
     }, []);
 
     return (
         <div className="shipping-banner">
-            <div className="shipping-text">
+            <div ref={textRef} className="shipping-text">
                 Spedizione gratuita per ordini superiori a 25€!
             </div>
             <a href="#" className="shipping-button">
                 <div ref={btnRef} className="btn">ACQUISTA TUTTO</div>
             </a>
         </div>
-    );
+    )
 };
 
 export default Shipping;
