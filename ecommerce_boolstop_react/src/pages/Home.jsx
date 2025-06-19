@@ -8,6 +8,8 @@ import { Link } from 'react-router-dom';
 import Videogames from './Videogames';
 import { useEffect } from 'react';
 import axios from "axios";
+import WelcomePopup from '../components/WelcomePopup';
+
 
 export default function Home() {
     //Questa const Serve per la "Sezione bottone scopri tutti i giochi"
@@ -40,6 +42,7 @@ export default function Home() {
     return (
         <>
             <div className="width-300">
+                <WelcomePopup />
                 <Shipping />
             </div>
             {/*Sezione Tasto per pagina VideoGames*/}

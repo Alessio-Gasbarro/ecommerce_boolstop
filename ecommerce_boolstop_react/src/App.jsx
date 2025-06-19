@@ -5,6 +5,7 @@ import Videogames from './pages/Videogames';
 import Basket from './pages/Basket';
 import DefaultLayout from './layouts/DefaultLayout';
 import NotFoundPage from './pages/NotFoundPage';
+import WelcomePopup from './components/WelcomePopup';
 
 export default function App() {
   return (
