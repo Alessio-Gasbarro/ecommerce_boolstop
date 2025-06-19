@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Videogames from './pages/Videogames';
 import Basket from './pages/Basket'
+import NotFoundPage from './pages/NotFoundPage';
 
 export default function App() {
   return (
@@ -11,6 +12,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/all" element={<Videogames />} />
         <Route path="/basket" element={<Basket />} />
+        <Route path="*" element={<NotFoundPage />}></Route>
       </Routes>
     </BrowserRouter>
   );
