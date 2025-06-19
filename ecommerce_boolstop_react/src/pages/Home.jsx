@@ -37,12 +37,7 @@ export default function Home() {
 
     return (
         <>
-<<<<<<< HEAD
-            <div className="width-300">
-                <WelcomePopup />
-=======
             <div className="centering">
->>>>>>> 491f52a7b60e173b0d7c4b3427642242f7406ff0
                 <Shipping />
             </div>
             {/*Sezione Tasto per pagina VideoGames*/}
