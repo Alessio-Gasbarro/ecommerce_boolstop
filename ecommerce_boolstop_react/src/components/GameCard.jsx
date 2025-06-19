@@ -1,6 +1,11 @@
 import React from 'react';
+import useCart from '../hooks/useCart';
 
 export default function GameCard({ game }) {
+
+    // custom hook per gestire il carrello
+    const { addToCart } = useCart();
+
     const price = parseFloat(game.price);
     const discount = parseFloat(game.discount);
 
@@ -31,7 +36,7 @@ export default function GameCard({ game }) {
             </div>
 
             <div className="action-buttons">
-                <button className="add-to-cart-btn biggerbuy">Acquista</button>
+                <button className="add-to-cart-btn biggerbuy" onClick={() => addToCart(game, 1)}>Acquista</button>
                 <button className="add-to-cart-btn biggerbuy">Wishlist</button>
             </div>
         </div>
