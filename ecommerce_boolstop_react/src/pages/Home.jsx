@@ -1,11 +1,7 @@
-import React, { useState } from 'react';
-import Header from '../components/Header';
+import { useState } from 'react';
 import videogamesImg from '../assets/gaming.png';
-import { mostWanted, newArrivals } from '../data/data';
 import Shipping from '../components/Shipping';
-import Footer from '../components/Footer';;
 import { Link } from 'react-router-dom';
-import Videogames from './Videogames';
 import { useEffect } from 'react';
 import axios from "axios";
 

@@ -18,7 +18,7 @@ export default function Header() {
                         placeholder="Cerca..."
                         className="search-bar"
                     />
-                    <a href="#"><i className="fas fa-shopping-cart"></i></a>
+                    <Link to="/basket"><i className="fas fa-shopping-cart"></i></Link>
                 </nav>
             </header>
         </div>
