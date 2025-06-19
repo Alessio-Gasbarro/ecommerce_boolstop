@@ -1,76 +1,63 @@
-import React from 'react'
-// import 'bootstrap/dist/css/bootstrap.min.css'; // da tenere commentato per non compromettere le pagine gia completate
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import React, { useState } from 'react';
+import useCart from '../hooks/hookCart';
 import { Link } from 'react-router-dom';
 
-const order_items = [
-    {
-        id: 1,
-        name: "Elden Ring",
-        description: "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum",
-        genre: "RPG, Souls-like",
-        image: "image.jpg",
-        discount: null,
-        release_date: "2024-10-12",
-        price: 50
-    },
-    {
-        id: 2,
-        name: "Elden Ring",
-        description: "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum",
-        genre: "RPG",
-        image: "image.jpg",
-        discount: 0.8,
-        release_date: "2024-10-12",
-        price: 50
-    },
-    {
-        id: 3,
-        name: "Elden Ring",
-        description: "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum",
-        genre: "RPG",
-        image: "image.jpg",
-        discount: 0.3,
-        release_date: "2024-10-12",
-        price: 50
-    },
-    {
-        id: 4,
-        name: "Elden Ring",
-        description: "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum",
-        genre: "RPG",
-        image: "image.jpg",
-        discount: null,
-        release_date: "2024-10-12",
-        price: 40
-    },
-    {
-        id: 5,
-        name: "Elden Ring",
-        description: "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum",
-        genre: "RPG",
-        image: "image.jpg",
-        discount: 0.5,
-        release_date: "2024-10-12",
-        price: 30
-    },
-]
-
-// Calcolo per il prezzo scontato
-const getDiscountedPrice = (item) => {
-    if (!item.discount) return item.price; //se non c'è lo sconto, ritorna il prezzo intero
-    // Altrimenti calcola il prezzo scontato
-    return (item.price * (1 - item.discount)).toFixed(2);
-};
-
-// Calcolo per il prezzo totale
-const getTotalPrice = () => {
-    return order_items.reduce((acc, item) => acc + (item.discount ? item.price * (1 - item.discount) : item.price), 0).toFixed(2);
-    // Somma il prezzo di tutti gli item, applicando lo sconto se presente
-};
-
 const Basket = () => {
+    const { cart, removeFromCart, clearCart } = useCart();
+    const [form, setForm] = useState({
+        name: '',
+        surname: '',
+        address: '',
+        email: '',
+        phone: ''
+    });
+    const [message, setMessage] = useState('');
+
+    const getDiscountedPrice = (item) =>
+        item.discount ? (item.price * (1 - item.discount)).toFixed(2) : item.price;
+
+    const getTotal = () =>
+        cart.reduce(
+            (sum, item) =>
+                sum + (item.discount ? item.price * (1 - item.discount) : item.price) * item.quantity,
+            0
+        ).toFixed(2);
+
+    const handleChange = e => {
+        setForm({ ...form, [e.target.name]: e.target.value });
+    };
+
+    const handleOrder = async e => {
+        e.preventDefault();
+        if (cart.length === 0) {
+            setMessage('Il carrello è vuoto.');
+            return;
+        }
+        try {
+            const res = await fetch('http://localhost:3000/api/games', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    ...form,
+                    total_price: getTotal(),
+                    status: 'pending',
+                    items: cart.map(item => ({
+                        id_product: item.id,
+                        quantity: item.quantity
+                    }))
+                })
+            });
+            if (res.ok) {
+                setMessage('Ordine inviato con successo!');
+                clearCart();
+            } else {
+                setMessage('Errore durante l\'invio dell\'ordine.');
+            }
+        } catch {
+            setMessage('Errore di rete.');
+        }
+    };
+
     return (
         <>
             <Header />
