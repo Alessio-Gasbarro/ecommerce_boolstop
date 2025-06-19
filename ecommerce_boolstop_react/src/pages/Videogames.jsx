@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
 import GameCard from '../components/GameCard';
 
 export default function Videogames() {
@@ -40,8 +38,6 @@ export default function Videogames() {
 
     return (
         <>
-            <Header />
-
             <section className="most-wanted-section">
                 <div className="section-header with-lines">
                     <div className="line" />
@@ -89,7 +85,6 @@ export default function Videogames() {
                     </button>
                 </div>
             </section>
-            <Footer />
         </>
     );
 }

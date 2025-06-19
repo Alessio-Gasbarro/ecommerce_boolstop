@@ -27,9 +27,6 @@ const Shipping = () => {
             <div ref={textRef} className="shipping-text">
                 Spedizione gratuita per ordini superiori a 25€!
             </div>
-            <a href="#" className="shipping-button">
-                <div ref={btnRef} className="btn">ACQUISTA TUTTO</div>
-            </a>
         </div>
     )
 };
