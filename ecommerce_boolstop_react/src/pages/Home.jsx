@@ -71,9 +71,13 @@ export default function Home() {
                             <div className="game-content">
                                 <h3 className="game-title">{game.name}</h3>
                                 <div className="price-section">
-                                    <span className="current-price">€{game.price}</span>
+                                    <span className="current-price">
+                                        €{(game.price * (1 - game.discount)).toFixed(2)}
+                                    </span>
                                     {game.discount > 0 && (
-                                        <span className="original-price">€{game.originalPrice}</span>
+                                        <span className="original-price">
+                                            €{Number(game.price).toFixed(2)}
+                                        </span>
                                     )}
                                 </div>
                                 <button className="add-to-cart-btn">ADD TO CART</button>
@@ -101,14 +105,20 @@ export default function Home() {
                             <div className="game-content">
                                 <h3 className="game-title">{game.name}</h3>
                                 <div className="price-section">
-                                    <span className="current-price">{game.price}</span>
+                                    <span className="current-price">
+                                        €{(game.price * (1 - game.discount)).toFixed(2)}
+                                    </span>
                                     {game.discount > 0 && (
-                                        <span className="original-price">{game.originalPrice}<i className="fa-solid fa-euro-sign"></i></span>
+                                        <span className="original-price">
+                                            €{Number(game.price).toFixed(2)}
+                                        </span>
                                     )}
                                 </div>
                                 <button className="add-to-cart-btn">ADD TO CART</button>
                                 {game.discount > 0 && (
-                                    <div className="discount-tag">-{game.discount}%</div>
+                                    <div className="discount-tag">
+                                        -{Math.round(game.discount * 100)}%
+                                    </div>
                                 )}
                             </div>
                         </div>
