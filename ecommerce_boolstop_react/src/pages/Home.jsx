@@ -17,6 +17,7 @@ export default function Home() {
 
     // variabile che contiene i giochi in offerta
     const [saleGames, setSaleGames] = useState([])
+
     // funzione che effettua una chiamata ajax per i giochi in offerta
     const fetchSaleGames = () => {
         axios.get('http://localhost:3000/api/games/discounted').then((resp) => {
@@ -24,7 +25,17 @@ export default function Home() {
         }).catch((err) => { console.log(err) })
     }
 
-    useEffect(fetchSaleGames, []);
+    // variabile che contiene gli utlimi arrivi
+    const [latestGames, setLatestGames] = useState([]);
+
+    // funzione che recupera gli ultimi arrivi 
+    const fetchLatestGames = () => {
+        axios.get('http://localhost:3000/api/games/new-releases?limit=4').then((resp) => {
+            setLatestGames(resp.data)
+        }).catch((err) => { console.log(err) })
+    }
+
+    useEffect(() => { fetchSaleGames(); fetchLatestGames(); }, []);
 
     return (
         <>
@@ -54,15 +65,15 @@ export default function Home() {
                 </div>
 
                 <div className="cards-container">
-                    {newArrivals.slice(0, 8).map((game) => (
-                        <div className="game-card" key={game.title}>
-                            <img src={game.image} alt={game.title} className="game-image" />
+                    {latestGames.map((game) => (
+                        <div className="game-card" key={game.name}>
+                            <img src={game.image} alt={game.name} className="game-image" />
                             <div className="game-content">
-                                <h3 className="game-title">{game.title}</h3>
+                                <h3 className="game-title">{game.name}</h3>
                                 <div className="price-section">
-                                    <span className="current-price">€{game.price.toFixed(2)}</span>
+                                    <span className="current-price">€{game.price}</span>
                                     {game.discount > 0 && (
-                                        <span className="original-price">€{game.originalPrice.toFixed(2)}</span>
+                                        <span className="original-price">€{game.originalPrice}</span>
                                     )}
                                 </div>
                                 <button className="add-to-cart-btn">ADD TO CART</button>
@@ -84,7 +95,7 @@ export default function Home() {
                 </div>
 
                 <div className="cards-container">
-                    {saleGames.slice(0, 8).map((game) => (
+                    {saleGames.map((game) => (
                         <div className="game-card" key={game.id}>
                             <img src={game.image} alt={game.name} className="game-image" />
                             <div className="game-content">
