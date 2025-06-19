@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import useCart from '../hooks/useCart';
-import { Link } from 'react-router-dom';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import axios from 'axios';
 
 const Basket = () => {
-    const { cart, removeFromCart, clearCart } = useCart();
+    // Utilizzo custom hook per gestire il carrello
+    const { cart, removeFromCart, clearCart, setQuantity } = useCart();
+
+    // Stato per il form di checkout
     const [form, setForm] = useState({
         name: '',
         surname: '',
@@ -13,11 +14,14 @@ const Basket = () => {
         email: '',
         phone: ''
     });
+
+    // Messaggio di feedback per l'utente
     const [message, setMessage] = useState('');
 
-    const getDiscountedPrice = (item) =>
-        item.discount ? (item.price * (1 - item.discount)).toFixed(2) : item.price;
+    // Prezzo scontato
+    const getDiscountedPrice = (item) => item.discount ? (item.price * (1 - item.discount)).toFixed(2) : item.price;
 
+    // Prezzo totale
     const getTotal = () =>
         cart.reduce(
             (sum, item) =>
@@ -25,10 +29,12 @@ const Basket = () => {
             0
         ).toFixed(2);
 
+    // Gestione del cambiamento nei campi del form
     const handleChange = e => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
+    // Gestione invio dell'ordine
     const handleOrder = async e => {
         e.preventDefault();
         if (cart.length === 0) {
@@ -36,27 +42,24 @@ const Basket = () => {
             return;
         }
         try {
-            const res = await fetch('http://localhost:3000/api/games', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    ...form,
-                    total_price: getTotal(),
-                    status: 'pending',
-                    items: cart.map(item => ({
-                        id_product: item.id,
-                        quantity: item.quantity
-                    }))
-                })
+            const res = await axios.post('http://localhost:3000/api/games', {
+                ...form,
+                total_price: Number(getTotal()),
+                shipment_price: 0, // <--- AGGIUNGI QUESTO CAMPO
+                status: 'pending',
+                items: cart.map(item => ({
+                    id_product: item.id,
+                    quantity: item.quantity
+                }))
             });
-            if (res.ok) {
+            if (res.status === 201) {
                 setMessage('Ordine inviato con successo!');
                 clearCart();
             } else {
                 setMessage('Errore durante l\'invio dell\'ordine.');
             }
-        } catch {
-            setMessage('Errore di rete.');
+        } catch (err) {
+            setMessage(err.response?.data?.message || 'Errore di rete.');
         }
     };
 
@@ -86,7 +89,16 @@ const Basket = () => {
                                                             <span className="original-price">€{Number(item.price).toFixed(2)}</span>
                                                         )}
                                                     </p>
-                                                    <p className="card-text">Quantità: {item.quantity}</p>
+                                                    <label>
+                                                        Quantità:
+                                                        <input
+                                                            type="number"
+                                                            min="1"
+                                                            value={item.quantity}
+                                                            onChange={e => setQuantity(item.id, parseInt(e.target.value) || 1)}
+                                                            style={{ width: '60px', marginLeft: '8px' }}
+                                                        />
+                                                    </label>
                                                     <button className="btn btn-danger" onClick={() => removeFromCart(item.id)}>Rimuovi</button>
                                                 </div>
                                             </div>
