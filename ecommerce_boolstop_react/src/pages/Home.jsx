@@ -37,6 +37,7 @@ export default function Home() {
 
     return (
         <>
+            <WelcomePopup />
             <div className="centering">
                 <Shipping />
             </div>
