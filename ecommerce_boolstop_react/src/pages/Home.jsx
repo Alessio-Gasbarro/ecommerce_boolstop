@@ -1,11 +1,7 @@
-import React, { useState } from 'react';
-import Header from '../components/Header';
+import { useState } from 'react';
 import videogamesImg from '../assets/gaming.png';
-import { mostWanted, newArrivals } from '../data/data';
 import Shipping from '../components/Shipping';
-import Footer from '../components/Footer';;
 import { Link } from 'react-router-dom';
-import Videogames from './Videogames';
 import { useEffect } from 'react';
 import axios from "axios";
 import WelcomePopup from '../components/WelcomePopup';
@@ -41,8 +37,12 @@ export default function Home() {
 
     return (
         <>
+<<<<<<< HEAD
             <div className="width-300">
                 <WelcomePopup />
+=======
+            <div className="centering">
+>>>>>>> 491f52a7b60e173b0d7c4b3427642242f7406ff0
                 <Shipping />
             </div>
             {/*Sezione Tasto per pagina VideoGames*/}
@@ -74,9 +74,13 @@ export default function Home() {
                             <div className="game-content">
                                 <h3 className="game-title">{game.name}</h3>
                                 <div className="price-section">
-                                    <span className="current-price">€{game.price}</span>
+                                    <span className="current-price">
+                                        €{(game.price * (1 - game.discount)).toFixed(2)}
+                                    </span>
                                     {game.discount > 0 && (
-                                        <span className="original-price">€{game.originalPrice}</span>
+                                        <span className="original-price">
+                                            €{Number(game.price).toFixed(2)}
+                                        </span>
                                     )}
                                 </div>
                                 <button className="add-to-cart-btn">ADD TO CART</button>
@@ -104,14 +108,20 @@ export default function Home() {
                             <div className="game-content">
                                 <h3 className="game-title">{game.name}</h3>
                                 <div className="price-section">
-                                    <span className="current-price">{game.price}</span>
+                                    <span className="current-price">
+                                        €{(game.price * (1 - game.discount)).toFixed(2)}
+                                    </span>
                                     {game.discount > 0 && (
-                                        <span className="original-price">{game.originalPrice}<i className="fa-solid fa-euro-sign"></i></span>
+                                        <span className="original-price">
+                                            €{Number(game.price).toFixed(2)}
+                                        </span>
                                     )}
                                 </div>
                                 <button className="add-to-cart-btn">ADD TO CART</button>
                                 {game.discount > 0 && (
-                                    <div className="discount-tag">-{game.discount}%</div>
+                                    <div className="discount-tag">
+                                        -{Math.round(game.discount * 100)}%
+                                    </div>
                                 )}
                             </div>
                         </div>

@@ -3,12 +3,12 @@ body {
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(to right,
-            #00ffff 0%,
-            #00cfcf 5%,
+            #636363 0%,
+            #636363 10%,
             #36393e 20%,
             #36393e 80%,
-            #c000c0 95%,
-            #ff00ff 100%);
+            #636363 90%,
+            #636363 100%);
     color: white;
 }
 
@@ -312,7 +312,6 @@ body {
     margin-bottom: 40px;
 }
 
-
 .news-image img {
     height: 100%;
     width: 320px;
@@ -327,36 +326,35 @@ body {
 }
 
 /* SEZIONE BANNER SHIPPING */
-.width-300 {
-    width: 900px;
-    justify-self: center;
+.centering {
+    display: flex;
+    justify-content: center;
+    align-content: center;
 }
 
 .shipping-banner {
-    background-color: #f0c14b;
-    padding: 20px;
+    background-image: url('./assets/jumbomariotron.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 600px;
+    width: 1200px;
     display: flex;
     justify-content: center;
-    gap: 40px;
     align-items: center;
     font-family: sans-serif;
-    margin-bottom: 12px;
+    position: relative;
+    border-radius: 24px;
 }
 
 .shipping-text {
-    font-size: 1.2rem;
+    font-size: 40px;
+    width: 400px;
     font-weight: bold;
-    font-size: 25px;
-}
-
-.shipping-button .btn {
-    background-color: #ffa500;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-weight: bold;
-    font-size: 22px;
-    transition: transform 0.2s;
+    color: orange;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+    margin-top: -350px;
+    margin-left: 250px;
     text-align: center;
 }
 
@@ -522,6 +520,7 @@ body {
     background: linear-gradient(135deg, #1a1a1a, #0044ff);
 }
 
+<<<<<<< HEAD
 /* SEZIONE POPUP DI BENVENUTO */
 
 .popup-overlay {
@@ -594,4 +593,90 @@ body {
     border-radius: 8px;
     padding: 10px;
     margin-left: 8px;
+=======
+/* GAMECARDS PER PAGINA VIDEOGAMES*/
+.game-card-horizontal {
+    height: 200px;
+    width: 90%;
+    margin: 5px;
+    display: flex;
+    background-color: lightslategray;
+    overflow: hidden;
+    box-sizing: border-box;
+    box-shadow: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.game-image-horizontal {
+    width: 25%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.game-info {
+    flex: 1;
+    padding: 20px;
+    border-right: 1px solid #eaeaea;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.game-title2 {
+    font-size: 1.2em;
+    font-weight: 600;
+    margin: 0;
+    color: #222;
+}
+
+.game-description {
+    font-size: 0.95em;
+    color: #555;
+    margin-top: 8px;
+}
+
+.price-display {
+    width: 300px;
+    border-right: 1px solid #eaeaea;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.price-display h3 {
+    color: black;
+    font-size: 2rem;
+    margin: 0;
+}
+
+.current-price-large {
+    font-size: 3em;
+    font-weight: 600;
+    color: #06402B;
+    text-shadow: 2px 2px rgb(20, 171, 20), 2px 2px rgb(20, 171, 20);
+}
+
+.original-price {
+    font-size: 0.9em;
+    color: black;
+    text-decoration: line-through;
+    margin-top: 5px;
+}
+
+.action-buttons {
+    width: 200px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+
+.biggerbuy {
+    font-size: 25px;
+    font-weight: bold;
+    color: white;
+>>>>>>> 491f52a7b60e173b0d7c4b3427642242f7406ff0
 }
