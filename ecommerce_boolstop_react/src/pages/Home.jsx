@@ -4,8 +4,13 @@ import Shipping from '../components/Shipping';
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import axios from "axios";
+import useCart from '../hooks/useCart'; //import del custom hook carrello
 
 export default function Home() {
+
+    // custom hook per gestire il carrello
+    const { addToCart } = useCart();
+
     //Questa const Serve per la "Sezione bottone scopri tutti i giochi"
     const cardItems = [
         { img: videogamesImg, alt: "Videogames", title: "Scopri qui, tutti i VideoGames!", link: "" }
@@ -76,7 +81,9 @@ export default function Home() {
                                         </span>
                                     )}
                                 </div>
-                                <button className="add-to-cart-btn">ADD TO CART</button>
+                                <button className="add-to-cart-btn" onClick={() => addToCart(game, 1)}>
+                                    ADD TO CART
+                                </button>
                                 {game.discount > 0 && (
                                     <div className="discount-tag">-{game.discount}%</div>
                                 )}
@@ -110,7 +117,9 @@ export default function Home() {
                                         </span>
                                     )}
                                 </div>
-                                <button className="add-to-cart-btn">ADD TO CART</button>
+                                <button className="add-to-cart-btn" onClick={() => addToCart(game, 1)}>
+                                    ADD TO CART
+                                </button>
                                 {game.discount > 0 && (
                                     <div className="discount-tag">
                                         -{Math.round(game.discount * 100)}%

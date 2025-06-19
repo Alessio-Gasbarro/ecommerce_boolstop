@@ -521,3 +521,11 @@ body {
     transform: translateY(-2px);
     background: linear-gradient(135deg, #1a1a1a, #0044ff);
 }
+
+/*style temporaneo basket*/
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
