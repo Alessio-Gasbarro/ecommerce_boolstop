@@ -15,7 +15,6 @@ export default function Home() {
 
     return (
         <>
-            <Header />
             <div className="width-300">
                 <Shipping />
             </div>
@@ -92,8 +91,6 @@ export default function Home() {
                     ))}
                 </div>
             </section>
-
-            <Footer />
         </>
     );
 }
