@@ -59,7 +59,7 @@ const store = (req, res) => {
 
     // Validazione basilare dello status
     const validStatus = ['paid', 'shipped', 'cancelled', 'pending']; // Definisco gli stati validi
-    if (!validStatus.includes(status)) { // Controllo se lo status è valido
+    if (!validStatus.includes(status)) { // Controllo se lo status Ã¨ valido
         return res.status(400).json({
             success: false,
             message: 'Status non valido. Valori accettati: paid, shipped, cancelled, pending'
@@ -68,7 +68,7 @@ const store = (req, res) => {
 
     // Eseguo la query per inserire l'ordine
     connection.query(
-        'INSERT INTO `order` (total_price, shipment_price, status, name, surname, address, email, phone) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', // Query per inserire l'ordine
+        'INSERT INTO `orders` (total_price, shipment_price, status, name, surname, address, email, phone) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
         [total_price, shipment_price, status, name, surname, address, email, phone],
         (error, results) => {
             if (error) {
@@ -92,6 +92,7 @@ const store = (req, res) => {
                         return res.status(500).json({
                             success: false,
                             message: 'Ordine creato ma errore nell\'inserimento degli elementi',
+                            error: orderItemsError.message,
                             orderId
                         });
                     }
