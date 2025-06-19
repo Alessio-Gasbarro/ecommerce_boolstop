@@ -1,16 +1,44 @@
-import React from 'react'
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import emailjs from '@emailjs/browser';
 
 const WelcomePopup = () => {
+    const [isVisible, setIsVisible] = useState(false);
+    const [email, setEmail] = useState('');
+    const form = useRef();
 
-    const [isVisible, setIsVisible] = useState(true);
-
-    const closePopup = () => setIsVisible(false);
-
+    // Controllo all'avvio
     useEffect(() => {
-        const timer = setTimeout(() => setIsVisible(true), 500); // 0.5 sec
-        return () => clearTimeout(timer);
+        const alreadyVisited = localStorage.getItem('popup_shown');
+        if (!alreadyVisited) {
+            setTimeout(() => setIsVisible(true), 500); // leggero delay
+        }
     }, []);
+
+    const closePopup = () => {
+        setIsVisible(false);
+        localStorage.setItem('popup_shown', 'true');
+    };
+
+    const sendEmail = (e) => {
+        e.preventDefault();
+
+        emailjs.send(
+            import.meta.env.VITE_EMAILJS_SERVICE_ID,
+            import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+            {
+                user_email: email,
+                to_email: email
+            },
+            import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+        )
+            .then(() => {
+                alert('Grazie! Email inviata con successo.');
+                closePopup(); // chiude e salva su localStorage
+            })
+            .catch(() => {
+                alert('Errore durante l\'invio della mail.');
+            });
+    };
 
     if (!isVisible) return null;
 
@@ -20,16 +48,22 @@ const WelcomePopup = () => {
                 <button className="close-button" onClick={closePopup}>×</button>
                 <h2>Benvenuto!</h2>
                 <p>Grazie per aver visitato il nostro sito! 😊</p>
-                <button onClick={closePopup}>Continua</button>
-                <form action="" className='form-popup'>
 
-                    <label> Inserisci la tua mail </label>
-                    <input className='input-popup' type="email" name="" id="" />
+                <form onSubmit={sendEmail} ref={form} className="form-popup">
+                    <label>Inserisci la tua mail</label>
+                    <input
+                        className="input-popup"
+                        type="email"
+                        name="user_email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    />
+                    <button type="submit">Continua</button>
                 </form>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default WelcomePopup;
-

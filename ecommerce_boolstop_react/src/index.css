@@ -592,89 +592,91 @@ body {
     border-radius: 8px;
     padding: 10px;
     margin-left: 8px;
+}
 
-    /* GAMECARDS PER PAGINA VIDEOGAMES*/
-    .game-card-horizontal {
-        height: 200px;
-        width: 90%;
-        margin: 5px;
-        display: flex;
-        background-color: lightslategray;
-        overflow: hidden;
-        box-sizing: border-box;
-        box-shadow: none;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
 
-    .game-image-horizontal {
-        width: 25%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-    }
+/* GAMECARDS PER PAGINA VIDEOGAMES*/
+.game-card-horizontal {
+    height: 200px;
+    width: 90%;
+    margin: 5px;
+    display: flex;
+    background-color: lightslategray;
+    overflow: hidden;
+    box-sizing: border-box;
+    box-shadow: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-    .game-info {
-        flex: 1;
-        padding: 20px;
-        border-right: 1px solid #eaeaea;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
+.game-image-horizontal {
+    width: 25%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
 
-    .game-title2 {
-        font-size: 1.2em;
-        font-weight: 600;
-        margin: 0;
-        color: #222;
-    }
+.game-info {
+    flex: 1;
+    padding: 20px;
+    border-right: 1px solid #eaeaea;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 
-    .game-description {
-        font-size: 0.95em;
-        color: #555;
-        margin-top: 8px;
-    }
+.game-title2 {
+    font-size: 1.2em;
+    font-weight: 600;
+    margin: 0;
+    color: #222;
+}
 
-    .price-display {
-        width: 300px;
-        border-right: 1px solid #eaeaea;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        text-align: center;
-    }
+.game-description {
+    font-size: 0.95em;
+    color: #555;
+    margin-top: 8px;
+}
 
-    .price-display h3 {
-        color: black;
-        font-size: 2rem;
-        margin: 0;
-    }
+.price-display {
+    width: 300px;
+    border-right: 1px solid #eaeaea;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
 
-    .current-price-large {
-        font-size: 3em;
-        font-weight: 600;
-        color: #06402B;
-        text-shadow: 2px 2px rgb(20, 171, 20), 2px 2px rgb(20, 171, 20);
-    }
+.price-display h3 {
+    color: black;
+    font-size: 2rem;
+    margin: 0;
+}
 
-    .original-price {
-        font-size: 0.9em;
-        color: black;
-        text-decoration: line-through;
-        margin-top: 5px;
-    }
+.current-price-large {
+    font-size: 3em;
+    font-weight: 600;
+    color: #06402B;
+    text-shadow: 2px 2px rgb(20, 171, 20), 2px 2px rgb(20, 171, 20);
+}
 
-    .action-buttons {
-        width: 200px;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        gap: 10px;
-    }
+.original-price {
+    font-size: 0.9em;
+    color: black;
+    text-decoration: line-through;
+    margin-top: 5px;
+}
 
-    .biggerbuy {
-        font-size: 25px;
-        font-weight: bold;
-        color: white;
-    }
+.action-buttons {
+    width: 200px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+
+.biggerbuy {
+    font-size: 25px;
+    font-weight: bold;
+    color: white;
+}
