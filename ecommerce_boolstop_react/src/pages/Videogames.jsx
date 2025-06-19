@@ -8,7 +8,6 @@ const Videogames = () => {
     return (
 
         <>
-            <Header />
             <div className="container">
                 <div className="row">
                     <div className="col-12">
@@ -31,7 +30,6 @@ const Videogames = () => {
                     </div>
                 </div>
             </div>
-            <Footer />
         </>
 
     )

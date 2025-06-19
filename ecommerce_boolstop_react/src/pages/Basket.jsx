@@ -1,7 +1,4 @@
 import React from 'react'
-// import 'bootstrap/dist/css/bootstrap.min.css'; // da tenere commentato per non compromettere le pagine gia completate
-import Header from '../components/Header';
-import Footer from '../components/Footer';
 import { Link } from 'react-router-dom';
 
 const order_items = [
@@ -73,7 +70,6 @@ const getTotalPrice = () => {
 const Basket = () => {
     return (
         <>
-            <Header />
             <div className="container">
                 <div className="row">
                     <h1 className='text-light'>Il tuo Carrello</h1>
@@ -104,7 +100,6 @@ const Basket = () => {
                     </div>
                 </div>
             </div >
-            <Footer />
         </>
     )
 }
