@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Videogames from './pages/Videogames';
 import Basket from './pages/Basket';
 import DefaultLayout from './layouts/DefaultLayout';
+import NotFoundPage from './pages/NotFoundPage';
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/all" element={<Videogames />} />
           <Route path="/basket" element={<Basket />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
