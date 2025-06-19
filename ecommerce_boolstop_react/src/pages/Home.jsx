@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '../components/Header';
 import videogamesImg from '../assets/gaming.png';
 import { mostWanted, newArrivals } from '../data/data';
@@ -6,12 +6,25 @@ import Shipping from '../components/Shipping';
 import Footer from '../components/Footer';;
 import { Link } from 'react-router-dom';
 import Videogames from './Videogames';
+import { useEffect } from 'react';
+import axios from "axios";
 
 export default function Home() {
-    //Questa const Serve per la "Sezione 3 Bottoni"
+    //Questa const Serve per la "Sezione bottone scopri tutti i giochi"
     const cardItems = [
         { img: videogamesImg, alt: "Videogames", title: "Scopri qui, tutti i VideoGames!", link: "" }
     ];
+
+    // variabile che contiene i giochi in offerta
+    const [saleGames, setSaleGames] = useState([])
+    // funzione che effettua una chiamata ajax per i giochi in offerta
+    const fetchSaleGames = () => {
+        axios.get('http://localhost:3000/api/games/discounted').then((resp) => {
+            setSaleGames(resp.data)
+        }).catch((err) => { console.log(err) })
+    }
+
+    useEffect(fetchSaleGames, []);
 
     return (
         <>
@@ -36,7 +49,7 @@ export default function Home() {
             <section className="most-wanted-section">
                 <div className="section-header with-lines">
                     <div className="line" />
-                    <h2 className="gradient-title">Nuovi Arrivi Popolari del giorno</h2>
+                    <h2 className="gradient-title">Nuove uscite</h2>
                     <div className="line" />
                 </div>
 
@@ -62,24 +75,24 @@ export default function Home() {
                 </div>
             </section>
 
-            {/*Sezione Most Wanted*/}
+            {/*Sezione in offerta*/}
             <section className="most-wanted-section">
                 <div className="section-header with-lines">
                     <div className="line" />
-                    <h2 className="gradient-title">Best Sellers</h2>
+                    <h2 className="gradient-title">In offerta</h2>
                     <div className="line" />
                 </div>
 
                 <div className="cards-container">
-                    {mostWanted.slice(0, 8).map((game) => (
-                        <div className="game-card" key={game.title}>
-                            <img src={game.image} alt={game.title} className="game-image" />
+                    {saleGames.slice(0, 8).map((game) => (
+                        <div className="game-card" key={game.id}>
+                            <img src={game.image} alt={game.name} className="game-image" />
                             <div className="game-content">
-                                <h3 className="game-title">{game.title}</h3>
+                                <h3 className="game-title">{game.name}</h3>
                                 <div className="price-section">
-                                    <span className="current-price">€{game.price.toFixed(2)}</span>
+                                    <span className="current-price">{game.price}</span>
                                     {game.discount > 0 && (
-                                        <span className="original-price">€{game.originalPrice.toFixed(2)}</span>
+                                        <span className="original-price">{game.originalPrice}<i class="fa-solid fa-euro-sign"></i></span>
                                     )}
                                 </div>
                                 <button className="add-to-cart-btn">ADD TO CART</button>
