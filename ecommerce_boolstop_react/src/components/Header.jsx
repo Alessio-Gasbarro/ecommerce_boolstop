@@ -6,10 +6,12 @@ export default function Header() {
     return (
         <div className="header-wrapper">
             <header className="header">
-                <div className="logo">
-                    <img src={logoBoolStop} alt="Logo BoolStop" />
-                    <h1>BoolStop</h1>
-                </div>
+                <Link to="/">
+                    <div className="logo">
+                        <img src={logoBoolStop} alt="Logo BoolStop" />
+                        <h1>BoolStop</h1>
+                    </div>
+                </Link>
                 <nav className="icons">
                     <input
                         type="text"
