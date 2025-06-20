@@ -3,19 +3,36 @@ import axios from 'axios';
 import GameCard from '../components/GameCard';
 
 export default function Videogames() {
-    const [games, setGames] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [sortType, setSortType] = useState('az'); // nuovo stato per l’ordinamento
 
+    // gestione giochi
+    const [games, setGames] = useState([]);
+    // gestione caricamento
+    const [loading, setLoading] = useState(true);
+    // gestione errori
+    const [error, setError] = useState(null);
+    // stato per la paginazione
+    const [currentPage, setCurrentPage] = useState(1);
+    // stato per l'ordinamento
+    const [sortType, setSortType] = useState('title-asc');
+
+    // stato per il termine di ricerca
+    const [searchTerm, setSearchTerm] = useState('');
+    // stato per i risultati della ricerca
+    const [searchResults, setSearchResults] = useState([]);
+    // stato per la ricerca
+    const [searching, setSearching] = useState(false);
+
+    //Numero di giochi per pagina
     const gamesPerPage = 8;
+    // Pagine totali
     const totalPages = Math.ceil(games.length / gamesPerPage);
 
+    // Caricamento dei giochi all'avvio e al cambio dell'ordinamento
     useEffect(() => {
-        axios.get('/api/games/all')
+        if (searchTerm) return; // Non carica se si sta cercando
+        setLoading(true);
+        axios.get(`/api/games/order/${sortType}`)
             .then(response => {
-                console.log('Giochi ricevuti:', response.data); //CONSOLE LOG TEMPORANEO
                 setGames(response.data);
                 setLoading(false);
             })
@@ -23,41 +40,42 @@ export default function Videogames() {
                 setError(err.message);
                 setLoading(false);
             });
-    }, []);
+    }, [sortType, searchTerm]);
 
-    // Funzione di ordinamento
-    const getSortedGames = () => {
-        let sorted = [...games];
-        switch (sortType) {
-            case 'az':
-                sorted.sort((a, b) => a.name.localeCompare(b.name));
-                break;
-            case 'za':
-                sorted.sort((a, b) => b.name.localeCompare(a.name));
-                break;
-            case 'price-asc':
-                sorted.sort((a, b) => a.price - b.price);
-                break;
-            case 'price-desc':
-                sorted.sort((a, b) => b.price - a.price);
-                break;
-            case 'date-new':
-                sorted.sort((a, b) => new Date(b.release_date) - new Date(a.release_date));
-                break;
-            case 'date-old':
-                sorted.sort((a, b) => new Date(a.release_date) - new Date(b.release_date));
-                break;
-            default:
-                break;
-        }
-        return sorted;
-    };
-
+    // indice di inizio e fine per la paginazione
     const startIndex = (currentPage - 1) * gamesPerPage;
     const endIndex = startIndex + gamesPerPage;
-    const displayedGames = getSortedGames().slice(startIndex, endIndex);
-    console.log('Giochi mostrati (paginati):', displayedGames);//CONSOLE LOG TEMPORANEO
+    // giochi da visualizzare nella pagina corrente
+    const displayedGames = games.slice(startIndex, endIndex);
 
+    // Gestione della ricerca
+    const handleSearch = async (e) => {
+        const value = e.target.value;
+        setSearchTerm(value);
+        if (value.trim() === '') {
+            setSearchResults([]);
+            setLoading(true);
+            axios.get(`/api/games/order/${sortType}`)
+                .then(response => {
+                    setGames(response.data);
+                    setLoading(false);
+                });
+            return;
+        }
+        setSearching(true);
+        try {
+            const res = await axios.get(`/api/games/autocomplete?term=${encodeURIComponent(value)}`);
+            setSearchResults(res.data.results || []);
+            setGames(res.data.results || []); // Mostra tutti i risultati della ricerca
+            setCurrentPage(1);
+        } catch (err) {
+            setSearchResults([]);
+            setGames([]);
+        }
+        setSearching(false);
+    };
+
+    // Gestione del cambio di pagina
     const handlePageChange = (page) => {
         if (page >= 1 && page <= totalPages) {
             setCurrentPage(page);
@@ -65,25 +83,69 @@ export default function Videogames() {
         }
     };
 
+    // Gestione della selezione di un risultato di ricerca
+    const handleSelectSearchResult = (game) => {
+        setGames([game]);
+        setSearchTerm('');
+        setSearchResults([]);
+    };
+
+    // Reset della ricerca e caricamento dei giochi ordinati
+    const resetSearch = () => {
+        setSearchTerm('');
+        setSearchResults([]);
+        setLoading(true);
+        axios.get(`/api/games/order/${sortType}`)
+            .then(response => {
+                setGames(response.data);
+                setLoading(false);
+            });
+    };
+
     return (
         <>
             <section className="most-wanted-section">
                 <div className="section-header with-lines">
                     <div className="line" />
-                    <h2 className="gradient-title">Tutti i Videogiochi</h2>
+                    <h2 className="gradient-title">I nostri Videogiochi!</h2>
                     <div className="line" />
                 </div>
+
+                {/* SEZIONE SEARCH BAR */}
+                <div className="search-section" style={{ marginBottom: 24 }}>
+                    <input
+                        type="text"
+                        placeholder="Cerca per nome..."
+                        value={searchTerm}
+                        onChange={handleSearch}
+                        style={{ padding: '8px', width: '250px', marginRight: '16px' }}
+                    />
+                    {searching && <span>Caricamento...</span>}
+                    {searchTerm && !searching && searchResults.length === 0 && (
+                        <div style={{ background: '#fff', border: '1px solid #ccc', position: 'absolute', zIndex: 10, width: 250, padding: '8px' }}>
+                            Nessun risultato
+                        </div>
+                    )}
+                </div>
+                {/* Pulsante per tornare all'elenco completo dei giochi */}
+                {searchTerm && searchResults.length > 0 && (
+                    <button onClick={resetSearch}>
+                        Torna all'elenco
+                    </button>
+                )}
 
                 {/* SEZIONE ORDINAMENTO */}
                 <div className="sort-section" style={{ marginBottom: 24 }}>
                     <label>Ordina per: </label>
                     <select value={sortType} onChange={e => setSortType(e.target.value)}>
-                        <option value="az">Nome (A-Z)</option>
-                        <option value="za">Nome (Z-A)</option>
+                        <option value="title-asc">Nome (A-Z)</option>
+                        <option value="title-desc">Nome (Z-A)</option>
                         <option value="price-asc">Prezzo crescente</option>
                         <option value="price-desc">Prezzo decrescente</option>
-                        <option value="date-new">Più recente</option>
-                        <option value="date-old">Più vecchio</option>
+                        <option value="release-date-desc">Più recente</option>
+                        <option value="release-date-asc">Più vecchio</option>
+                        <option value="discount-desc">Sconto maggiore</option>
+                        <option value="discount-asc">Sconto minore</option>
                     </select>
                 </div>
 
@@ -108,7 +170,7 @@ export default function Videogames() {
                         ◀
                     </button>
 
-                    {[1, 2, 3, 4].map((page) => (
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                         <button
                             key={page}
                             onClick={() => handlePageChange(page)}
