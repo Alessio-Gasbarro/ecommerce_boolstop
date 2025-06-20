@@ -36,11 +36,14 @@ export default function useCart() {
     // per svuotare il carrello
     const clearCart = () => setCart([]);
 
+    // imposto la quantita di un prodotto nel carrello
     const setQuantity = (id, quantity) => {
         setCart(prev =>
-            prev.map(item =>
-                item.id === id ? { ...item, quantity: Math.max(1, quantity) } : item
-            )
+            quantity > 0
+                ? prev.map(item =>
+                    item.id === id ? { ...item, quantity } : item
+                )
+                : prev.filter(item => item.id !== id)
         );
     };
 
