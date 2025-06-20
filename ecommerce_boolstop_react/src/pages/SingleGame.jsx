@@ -1,64 +1,39 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import useCart from '../hooks/useCart';
+import SingleGameCard from '../components/SingleGameCard';
+import Suggested from '../components/Suggested';
 
-export default function GameDetailPage() {
+export default function SingleGame() {
     const { id } = useParams();
-    const [game, setGame] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const { addToCart } = useCart();
 
+    const [game, setGame] = useState(null);
+    const [saleGames, setSaleGames] = useState([]);
+
+    // Carica il gioco specifico
     useEffect(() => {
-        async function fetchGame() {
-            try {
-                const res = await axios.get(`http://localhost:3000/api/games/${id}`);
-                setGame(res.data);
-            } catch (err) {
-                setError("Impossibile caricare il gioco.");
-            } finally {
-                setLoading(false);
-            }
-        }
-        fetchGame();
+        axios.get(`http://localhost:3000/api/games/${id}`)
+            .then(resp => setGame(resp.data))
+            .catch(err => console.error(err));
     }, [id]);
 
-    if (loading) return <div className="gdp-loading">Caricamento...</div>;
-    if (error) return <div className="gdp-error">{error}</div>;
-    if (!game) return <div className="gdp-error">Gioco non trovato.</div>;
+    // Carica i giochi in offerta
+    useEffect(() => {
+        axios.get('http://localhost:3000/api/games/discounted')
+            .then(resp => setSaleGames(resp.data))
+            .catch(err => console.error(err));
+    }, []);
+
+    if (!game) return <div>Caricamento in corso...</div>;
 
     return (
-        <div className="gdp-container">
-            <div className="gdp-card">
-                <div className="gdp-content">
-                    <img
-                        src={game.image_detail}
-                        alt={game.name}
-                        className="gdp-image"
-                    />
-                    <div className="gdp-details">
-                        <h1 className="gdp-name">{game.name}</h1>
-                        <p className="gdp-title">{game.title}</p>
-                        <div className="gdp-price">
-                            {game.discount ? (
-                                <>
-                                    <span className="gdp-original-price">€{game.price}</span>
-                                    <span className="gdp-discounted-price">€{(game.price * (1 - game.discount)).toFixed(2)}</span>
-                                </>
-                            ) : (
-                                <span className="gdp-final-price">€{game.price}</span>
-                            )}
-                        </div>
-                        {game.discount && (
-                            <div className="gdp-discount-info">
-                                Sconto del {Math.round(game.discount * 100)}%
-                            </div>
-                        )}
-                        <button className="gdp-buy-button">
-                            Acquista Ora
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <>
+            <SingleGameCard game={game} />
+
+            {/* Sezione prodotti suggeriti */}
+            <Suggested saleGames={saleGames} addToCart={addToCart} />
+        </>
     );
 }
