@@ -5,8 +5,8 @@ import Videogames from './pages/Videogames';
 import Basket from './pages/Basket';
 import DefaultLayout from './layouts/DefaultLayout';
 import NotFoundPage from './pages/NotFoundPage';
-import WelcomePopup from './components/WelcomePopup';
 import Wishlist from './pages/Wishlist';
+import SingleGame from './pages/SingleGame';
 
 export default function App() {
   return (
@@ -15,6 +15,7 @@ export default function App() {
         <Route element={<DefaultLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/all" element={<Videogames />} />
+          <Route path="/all/:id" element={<SingleGame />} />
           <Route path="/basket" element={<Basket />} />
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="*" element={<NotFoundPage />} />
