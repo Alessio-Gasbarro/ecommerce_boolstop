@@ -267,6 +267,11 @@ header {
     height: 175px;
 }
 
+.game-card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
 /* Immagine compatta */
 .game-image {
     object-fit: cover;
@@ -466,11 +471,9 @@ header {
     background: linear-gradient(to top, #080808, #2d2d2d);
     color: white;
     padding: 2rem 1rem;
-    font-family: 'Segoe UI', sans-serif;
     border-top: 4px solid;
     border-image: linear-gradient(to right, #ff00ff, #00ffff) 1;
     position: relative;
-    bottom: -245px;
 }
 
 .footer-top,
@@ -982,4 +985,189 @@ header {
     display: flex;
     align-items: center;
     gap: 5px;
+}
+
+/*WISHLIST*/
+.wishlist-section {
+    min-height: 500px;
+    padding: 2rem;
+}
+
+.wishlist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.wishlist-card.large {
+    background: #202020;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.wishlist-game-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.wishlist-info {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.game-name {
+    font-size: 1.4rem;
+    margin: 0.5rem 0;
+}
+
+.game-price {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #ffd700;
+}
+
+.wishlist-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.wishlist-actions button {
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.wishlist-actions button:first-child {
+    background-color: #28a745;
+    color: white;
+}
+
+.wishlist-actions button:last-child {
+    background-color: #dc3545;
+    color: white;
+}
+
+.clear-wishlist {
+    margin-top: 2rem;
+    grid-column: 1 / -1;
+    text-align: center;
+}
+
+.clear-wishlist h3 {
+    font-size: 30px;
+}
+
+.clear-wishlist h4 {
+    font-size: 40px;
+    color: goldenrod;
+}
+
+.clear-wishlist button {
+    padding: 0.8rem 1.6rem;
+    font-size: 1.1rem;
+    background-color: #ff4444;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/*CHECKOUT FORM*/
+.checkout-form {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 30px;
+    margin-left: 120px;
+    background: #ffffff;
+    border-radius: 20px;
+}
+
+.checkout-form h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.checkout-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Contenitore per gli input in orizzontale */
+.checkout-form .inputs-row {
+    display: flex;
+    gap: 15px;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
+/* Ogni input prende uguale spazio */
+.checkout-form .inputs-row input {
+    flex: 1 1 0;
+    min-width: 0;
+    /* per evitare overflow */
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.checkout-form .inputs-row input:focus {
+    border-color: #00a884;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 168, 132, 0.2);
+}
+
+.checkout-form button {
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    background-color: #00a884;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    width: 100%;
+    max-width: 200px;
+    align-self: center;
+    /* centra il bottone */
+}
+
+.checkout-form button:hover {
+    background-color: #008f73;
+}
+
+.checkout-form p {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 16px;
+    color: #2f855a;
+}
+
+/* Media query: layout verticale sotto 1060px */
+@media (max-width: 1060px) {
+    .checkout-form .inputs-row {
+        flex-direction: column;
+    }
+
+    .checkout-form .inputs-row input {
+        flex: 1 1 100%;
+    }
+
+    .checkout-form button {
+        max-width: 100%;
+    }
 }

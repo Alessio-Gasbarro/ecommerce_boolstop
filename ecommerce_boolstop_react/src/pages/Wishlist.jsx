@@ -2,74 +2,55 @@ import React from 'react';
 import useWishlist from '../hooks/useWishlist';
 import useCart from '../hooks/useCart';
 
-export default function Wishlist() {
+const Wishlist = () => {
     const { wishlist, removeFromWishlist, clearWishlist } = useWishlist();
-    const { cart, addToCart, setQuantity } = useCart();
+    const { cart, addToCart } = useCart();
 
-    // Funzione per controllare se il prodotto è già nel carrello
-    const getCartItem = (id) => cart.find(item => item.id === id);
+    const isWishlistEmpty = wishlist.length === 0;
 
     return (
-        <div className="container">
-            <h1>La tua Wishlist</h1>
-            {wishlist.length === 0 ? (
-                <p>La wishlist è vuota.</p>
-            ) : (
-                <>
-                    {wishlist.map(item => {
-                        const cartItem = getCartItem(item.id);
-                        return (
-                            <div className="card mb-3" key={item.id}>
-                                <div className="row g-0">
-                                    <div className="col-md-4">
-                                        <img src={item.image} className="img-fluid rounded-start" alt={item.name} />
-                                    </div>
-                                    <div className="col-md-8">
-                                        <div className="card-body">
-                                            <h4 className="card-title">{item.name}</h4>
-                                            <p className="card-text">{item.description}</p>
-                                            <button className="btn btn-danger" onClick={() => removeFromWishlist(item.id)}>
-                                                Rimuovi
-                                            </button>
+        <section className="most-wanted-section wishlist-section">
+            <div className="section-header with-lines">
+                <div className="line" />
+                <h2 className="gradient-title">La tua personale Wishlist!</h2>
+                <div className="line" />
+            </div>
 
-                                            {cartItem ? (
-                                                <div style={{ display: 'inline-block', marginLeft: 10 }}>
-                                                    <label>
-                                                        Quantità:
-                                                        <input
-                                                            type="number"
-                                                            min="0"
-                                                            value={cartItem.quantity}
-                                                            onChange={e => setQuantity(item.id, parseInt(e.target.value) || 0)}
-                                                            style={{ width: '60px', marginLeft: '8px' }}
-                                                        />
-                                                    </label>
-                                                    <button
-                                                        className="btn btn-danger"
-                                                        style={{ marginLeft: 10 }}
-                                                        onClick={() => setQuantity(item.id, 0)}
-                                                    >
-                                                        Rimuovi dal carrello
-                                                    </button>
-                                                </div>
-                                            ) : (
-                                                <button
-                                                    className="btn btn-success"
-                                                    style={{ marginLeft: 10 }}
-                                                    onClick={() => addToCart(item, 1)}
-                                                >
-                                                    Aggiungi al carrello
-                                                </button>
-                                            )}
-                                        </div>
-                                    </div>
+            <div className="wishlist-content">
+                {isWishlistEmpty ? (
+                    <div className="empty-wishlist">
+                        <p>La tua lista dei desideri è vuota. Aggiungi un gioco per iniziare!</p>
+                    </div>
+                ) : (
+                    <div className="wishlist-grid">
+                        {wishlist.map((game) => (
+                            <div key={game.id} className="wishlist-card large">
+                                {game.image && (
+                                    <img
+                                        src={game.image}
+                                        alt={game.name}
+                                        className="wishlist-game-image"
+                                    />
+                                )}
+                                <div className="wishlist-info">
+                                    <h3 className="game-name">{game.name}</h3>
+                                    <p className="game-price">€{Number(game.price).toFixed(2)}</p>
+                                </div>
+                                <div className="wishlist-actions">
+                                    <button onClick={() => addToCart(game)}>Aggiungi al carrello</button>
+                                    <button onClick={() => removeFromWishlist(game.id)}>Rimuovi</button>
                                 </div>
                             </div>
-                        );
-                    })}
-                    <button className="btn btn-warning" onClick={clearWishlist}>Svuota wishlist</button>
-                </>
-            )}
-        </div>
+                        ))}
+
+                        <div className="clear-wishlist">
+                            <button onClick={clearWishlist}>Svuota lista desideri</button>
+                        </div>
+                    </div>
+                )}
+            </div>
+        </section>
     );
-}
+};
+
+export default Wishlist;

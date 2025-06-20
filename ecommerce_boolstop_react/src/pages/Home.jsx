@@ -70,28 +70,30 @@ export default function Home() {
 
                 <div className="cards-container">
                     {latestGames.map((game) => (
-                        <div className="game-card" key={game.name}>
-                            <img src={game.image} alt={game.name} className="game-image" />
-                            <div className="game-content">
-                                <h3 className="game-title">{game.name}</h3>
-                                <div className="price-section">
-                                    <span className="current-price">
-                                        €{(game.price * (1 - game.discount)).toFixed(2)}
-                                    </span>
-                                    {game.discount > 0 && (
-                                        <span className="original-price">
-                                            €{Number(game.price).toFixed(2)}
+                        <Link to={`/all/${game.id}`} key={game.id} className="game-card-link">
+                            <div className="game-card" key={game.name}>
+                                <img src={game.image} alt={game.name} className="game-image" />
+                                <div className="game-content">
+                                    <h3 className="game-title">{game.name}</h3>
+                                    <div className="price-section">
+                                        <span className="current-price">
+                                            €{(game.price * (1 - game.discount)).toFixed(2)}
                                         </span>
+                                        {game.discount > 0 && (
+                                            <span className="original-price">
+                                                €{Number(game.price).toFixed(2)}
+                                            </span>
+                                        )}
+                                    </div>
+                                    <button className="add-to-cart-btn" onClick={() => addToCart(game, 1)}>
+                                        ADD TO CART
+                                    </button>
+                                    {game.discount > 0 && (
+                                        <div className="discount-tag">-{game.discount}%</div>
                                     )}
                                 </div>
-                                <button className="add-to-cart-btn" onClick={() => addToCart(game, 1)}>
-                                    ADD TO CART
-                                </button>
-                                {game.discount > 0 && (
-                                    <div className="discount-tag">-{game.discount}%</div>
-                                )}
                             </div>
-                        </div>
+                        </Link>
                     ))}
                 </div>
             </section>
@@ -106,30 +108,32 @@ export default function Home() {
 
                 <div className="cards-container">
                     {saleGames.map((game) => (
-                        <div className="game-card" key={game.id}>
-                            <img src={game.image} alt={game.name} className="game-image" />
-                            <div className="game-content">
-                                <h3 className="game-title">{game.name}</h3>
-                                <div className="price-section">
-                                    <span className="current-price">
-                                        €{(game.price * (1 - game.discount)).toFixed(2)}
-                                    </span>
-                                    {game.discount > 0 && (
-                                        <span className="original-price">
-                                            €{Number(game.price).toFixed(2)}
+                        <Link to={`/all/${game.id}`} key={game.id} className="game-card-link">
+                            <div className="game-card" key={game.id}>
+                                <img src={game.image} alt={game.name} className="game-image" />
+                                <div className="game-content">
+                                    <h3 className="game-title">{game.name}</h3>
+                                    <div className="price-section">
+                                        <span className="current-price">
+                                            €{(game.price * (1 - game.discount)).toFixed(2)}
                                         </span>
+                                        {game.discount > 0 && (
+                                            <span className="original-price">
+                                                €{Number(game.price).toFixed(2)}
+                                            </span>
+                                        )}
+                                    </div>
+                                    <button className="add-to-cart-btn" onClick={() => addToCart(game, 1)}>
+                                        ADD TO CART
+                                    </button>
+                                    {game.discount > 0 && (
+                                        <div className="discount-tag">
+                                            -{Math.round(game.discount * 100)}%
+                                        </div>
                                     )}
                                 </div>
-                                <button className="add-to-cart-btn" onClick={() => addToCart(game, 1)}>
-                                    ADD TO CART
-                                </button>
-                                {game.discount > 0 && (
-                                    <div className="discount-tag">
-                                        -{Math.round(game.discount * 100)}%
-                                    </div>
-                                )}
                             </div>
-                        </div>
+                        </Link>
                     ))}
                 </div>
             </section>

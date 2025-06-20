@@ -4,10 +4,8 @@ import axios from 'axios';
 import emailjs from '@emailjs/browser';
 
 const Basket = () => {
-    // Utilizzo custom hook per gestire il carrello
     const { cart, removeFromCart, clearCart, setQuantity } = useCart();
 
-    // Stato per il form di checkout
     const [form, setForm] = useState({
         name: '',
         surname: '',
@@ -16,38 +14,37 @@ const Basket = () => {
         phone: ''
     });
 
-
     const [message, setMessage] = useState('');
 
-    // Prezzo scontato
-    const getDiscountedPrice = (item) => item.discount ? (item.price * (1 - item.discount)).toFixed(2) : item.price;
+    const getDiscountedPrice = (item) =>
+        item.discount
+            ? (parseFloat(item.price) * (1 - item.discount)).toFixed(2)
+            : parseFloat(item.price).toFixed(2);
 
-    // Prezzo totale
     const getTotal = () =>
         cart.reduce(
             (sum, item) =>
-                sum + (item.discount ? item.price * (1 - item.discount) : item.price) * item.quantity,
+                sum + (item.discount
+                    ? parseFloat(item.price) * (1 - item.discount)
+                    : parseFloat(item.price)) * item.quantity,
             0
         ).toFixed(2);
 
-    // Determina se la spedizione è gratuita
     const isFreeShipping = parseFloat(getTotal()) > 25;
 
-    // Gestione del cambiamento nei campi del form
     const handleChange = e => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    // Gestione invio dell'ordine
     const handleOrder = async e => {
         e.preventDefault();
         if (cart.length === 0) {
             setMessage('Il carrello è vuoto.');
             return;
         }
+
         try {
             const total = getTotal();
-
             const shipmentPrice = isFreeShipping ? 0 : null;
 
             const res = await axios.post('http://localhost:3000/api/games', {
@@ -62,12 +59,10 @@ const Basket = () => {
             });
 
             if (res.status === 201) {
-                // Costruisci stringa dettagli ordine per la mail
                 const orderDetails = cart.map(item => {
                     return `• ${item.name} (x${item.quantity}) - €${getDiscountedPrice(item)}`;
                 }).join('\n');
 
-                // Invia l'email con emailjs
                 await emailjs.send(
                     import.meta.env.VITE_EMAILJS_SERVICE_ID,
                     import.meta.env.VITE_EMAILJS_TEMPLATE_ID_ORDER,
@@ -95,78 +90,86 @@ const Basket = () => {
     };
 
     return (
-        <>
-            <div className="container">
-                <div className="row">
-                    <h1 className='text-light'>Il tuo Carrello</h1>
-                    <div className="col-12">
-                        {cart.length === 0 ? (
-                            <p>Il carrello è vuoto.</p>
-                        ) : (
-                            <>
-                                {cart.map((item) => (
-                                    <div className="card mb-3" key={item.id}>
-                                        <div className="row g-0">
-                                            <div className="col-md-4">
-                                                <img src={item.image} className="img-fluid rounded-start" alt={item.name} />
-                                            </div>
-                                            <div className="col-md-8">
-                                                <div className="card-body">
-                                                    <h4 className="card-title">{item.name}</h4>
-                                                    <p className="card-text">Genere: {item.genre}</p>
-                                                    <p className="card-text">
-                                                        Prezzo: €{getDiscountedPrice(item)}{' '}
-                                                        {item.discount > 0 && (
-                                                            <span className="original-price">€{Number(item.price).toFixed(2)}</span>
-                                                        )}
-                                                    </p>
-                                                    <label>
-                                                        Quantità:
-                                                        <input
-                                                            type="number"
-                                                            min="1"
-                                                            value={item.quantity}
-                                                            onChange={e => setQuantity(item.id, parseInt(e.target.value) || 1)}
-                                                            style={{ width: '60px', marginLeft: '8px' }}
-                                                        />
-                                                    </label>
-                                                    <button className="btn btn-danger" onClick={() => removeFromCart(item.id)}>Rimuovi</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                                <div className="row">
-                                    <div className="col-4">
-                                        <div className="card">
-                                            <h3>Prezzo totale: €{getTotal()}</h3>
-                                            {/* Mostra il messaggio di spedizione gratuita solo se prezzo totale > 25 */}
-                                            {isFreeShipping && (
-                                                <div className="alert alert-success mt-2" role="alert">
-                                                    Hai superato i 25 &#8364;, la spedizione è gratuita!
-                                                </div>
-                                            )}
-                                            <button className="btn btn-warning" onClick={clearCart}>Svuota carrello</button>
-                                        </div>
-                                    </div>
+        <section className="most-wanted-section wishlist-section">
+            <div className="section-header with-lines">
+                <div className="line" />
+                <h2 className="gradient-title">Il tuo Carrello</h2>
+                <div className="line" />
+            </div>
+
+            <div className="wishlist-content">
+                {cart.length === 0 ? (
+                    <div className="empty-wishlist">
+                        <p>Il carrello è vuoto.</p>
+                    </div>
+                ) : (
+                    <div className="wishlist-grid">
+                        {cart.map(item => (
+                            <div key={item.id} className="wishlist-card large">
+                                {item.image && (
+                                    <img
+                                        src={item.image}
+                                        alt={item.name}
+                                        className="wishlist-game-image"
+                                    />
+                                )}
+                                <div className="wishlist-info">
+                                    <h3 className="game-name">{item.name}</h3>
+                                    <p className="game-price">
+                                        €{getDiscountedPrice(item)}{' '}
+                                        {item.discount > 0 && (
+                                            <span className="original-price">€{parseFloat(item.price).toFixed(2)}</span>
+                                        )}
+                                    </p>
+                                    <label>
+                                        Quantità:
+                                        <input
+                                            type="number"
+                                            min="1"
+                                            value={item.quantity}
+                                            onChange={e => setQuantity(item.id, parseInt(e.target.value) || 1)}
+                                            style={{ width: '60px', marginLeft: '8px' }}
+                                        />
+                                    </label>
                                 </div>
-                                ---
-                                <h2>Checkout</h2>
-                                <form onSubmit={handleOrder}>
+                                <div className="wishlist-actions">
+                                    <button onClick={() => removeFromCart(item.id)}>Rimuovi</button>
+                                </div>
+                            </div>
+                        ))}
+
+                        <div className="clear-wishlist">
+                            <div className="section-header with-lines">
+                                <div className="line" />
+                                <h2 className="gradient-title">Il tuo Carrello</h2>
+                                <div className="line" />
+                            </div>
+                            <h3>Totale: €{getTotal()}</h3>
+                            {isFreeShipping && (
+                                <h4>Hai superato i 25€, la spedizione è gratuita!</h4>
+                            )}
+                            <button onClick={clearCart}>Svuota carrello</button>
+                        </div>
+
+                        <div className="checkout-form">
+                            <h2>Checkout</h2>
+                            <form onSubmit={handleOrder}>
+                                <div className="inputs-row">
                                     <input name="name" placeholder="Nome" value={form.name} onChange={handleChange} required />
                                     <input name="surname" placeholder="Cognome" value={form.surname} onChange={handleChange} required />
                                     <input name="address" placeholder="Indirizzo" value={form.address} onChange={handleChange} required />
                                     <input name="email" type="email" placeholder="Email" value={form.email} onChange={handleChange} required />
                                     <input name="phone" placeholder="Telefono" value={form.phone} onChange={handleChange} required />
-                                    <button type="submit" className="btn btn-success mt-2">Invia Ordine</button>
-                                </form>
-                                {message && <p>{message}</p>}
-                            </>
-                        )}
+                                </div>
+                                <button type="submit" className="btn btn-success mt-2">Invia Ordine</button>
+                            </form>
+                            {message && <p>{message}</p>}
+                        </div>
+
                     </div>
-                </div>
+                )}
             </div>
-        </>
+        </section>
     );
 };
 
