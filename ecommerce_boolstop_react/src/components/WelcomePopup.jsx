@@ -8,7 +8,7 @@ const WelcomePopup = () => {
 
     // Controllo all'avvio
     useEffect(() => {
-        const alreadyVisited = localStorage.getItem('popup_shown');
+        const alreadyVisited = sessionStorage.getItem('popup_shown');
         if (!alreadyVisited) {
             setTimeout(() => setIsVisible(true), 500); // leggero delay
         }
@@ -16,7 +16,7 @@ const WelcomePopup = () => {
 
     const closePopup = () => {
         setIsVisible(false);
-        localStorage.setItem('popup_shown', 'true');
+        sessionStorage.setItem('popup_shown', 'true');
     };
 
     const sendEmail = (e) => {
