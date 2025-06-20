@@ -38,23 +38,26 @@ export default function Header() {
                     />
                     <div className="cart-wrapper">
                         <Link to="/wishlist"><i className='fas fa-star'></i></Link>
-                        <Link to="/basket">
-                            <div className='popup-cart'>
-                                {cart.length} <i className="fas fa-shopping-cart"></i>
+
+                        <div className="cart-icon-wrapper">
+                            <Link to="/basket">
+                                <div className='popup-cart'>
+                                    {cart.length} <i className="fas fa-shopping-cart"></i>
+                                </div>
+                            </Link>
+                            <div className="cart-hover-popup">
+                                {cart.length === 0 ? (
+                                    <p>Il carrello è vuoto</p>
+                                ) : (
+                                    <ul>
+                                        {cart.map(item => (
+                                            <li key={item.id}>
+                                                {item.name} (x{item.quantity})
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
                             </div>
-                        </Link>
-                        <div className="cart-hover-popup">
-                            {cart.length === 0 ? (
-                                <p>Il carrello è vuoto</p>
-                            ) : (
-                                <ul>
-                                    {cart.map(item => (
-                                        <li key={item.id}>
-                                            {item.name} (x{item.quantity})
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
                         </div>
                     </div>
                 </nav>
