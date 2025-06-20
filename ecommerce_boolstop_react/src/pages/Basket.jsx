@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import useCart from '../hooks/useCart';
 import axios from 'axios';
+import emailjs from '@emailjs/browser'
 
 const Basket = () => {
     // Utilizzo custom hook per gestire il carrello
@@ -42,18 +43,42 @@ const Basket = () => {
             return;
         }
         try {
+            const total = getTotal();
+
             const res = await axios.post('http://localhost:3000/api/games', {
                 ...form,
-                total_price: Number(getTotal()),
-                shipment_price: 0, // <--- AGGIUNGI QUESTO CAMPO
+                total_price: Number(total),
+                shipment_price: 0,
                 status: 'pending',
                 items: cart.map(item => ({
                     id_product: item.id,
                     quantity: item.quantity
                 }))
             });
+
             if (res.status === 201) {
-                setMessage('Ordine inviato con successo!');
+                // Costruisci stringa dettagli ordine per la mail
+                const orderDetails = cart.map(item => {
+                    return `• ${item.name} (x${item.quantity}) - €${getDiscountedPrice(item)}`;
+                }).join('\n');
+
+                // Invia l'email con emailjs
+                await emailjs.send(
+                    import.meta.env.VITE_EMAILJS_SERVICE_ID,
+                    import.meta.env.VITE_EMAILJS_TEMPLATE_ID_ORDER,
+                    {
+                        user_name: form.name,
+                        user_surname: form.surname,
+                        user_address: form.address,
+                        user_email: form.email,
+                        user_phone: form.phone,
+                        order_details: orderDetails,
+                        total_price: total
+                    },
+                    import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+                );
+
+                setMessage('Ordine inviato con successo! Riceverai un\'email di conferma.');
                 clearCart();
             } else {
                 setMessage('Errore durante l\'invio dell\'ordine.');
@@ -62,6 +87,7 @@ const Basket = () => {
             setMessage(err.response?.data?.message || 'Errore di rete.');
         }
     };
+
 
     return (
         <>
