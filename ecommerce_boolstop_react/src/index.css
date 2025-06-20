@@ -440,9 +440,10 @@ body {
     color: white;
     padding: 2rem 1rem;
     font-family: 'Segoe UI', sans-serif;
-
     border-top: 4px solid;
     border-image: linear-gradient(to right, #ff00ff, #00ffff) 1;
+    position: relative;
+    bottom: -245px;
 }
 
 .footer-top,

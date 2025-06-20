@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import useCart from '../hooks/useCart';
 import axios from 'axios';
-import emailjs from '@emailjs/browser'
+import emailjs from '@emailjs/browser';
 
 const Basket = () => {
     // Utilizzo custom hook per gestire il carrello
@@ -16,7 +16,7 @@ const Basket = () => {
         phone: ''
     });
 
-    // Messaggio di feedback per l'utente
+
     const [message, setMessage] = useState('');
 
     // Prezzo scontato
@@ -29,6 +29,9 @@ const Basket = () => {
                 sum + (item.discount ? item.price * (1 - item.discount) : item.price) * item.quantity,
             0
         ).toFixed(2);
+
+    // Determina se la spedizione è gratuita
+    const isFreeShipping = parseFloat(getTotal()) > 25;
 
     // Gestione del cambiamento nei campi del form
     const handleChange = e => {
@@ -45,10 +48,12 @@ const Basket = () => {
         try {
             const total = getTotal();
 
+            const shipmentPrice = isFreeShipping ? 0 : null;
+
             const res = await axios.post('http://localhost:3000/api/games', {
                 ...form,
                 total_price: Number(total),
-                shipment_price: 0,
+                shipment_price: shipmentPrice,
                 status: 'pending',
                 items: cart.map(item => ({
                     id_product: item.id,
@@ -73,7 +78,8 @@ const Basket = () => {
                         user_email: form.email,
                         user_phone: form.phone,
                         order_details: orderDetails,
-                        total_price: total
+                        total_price: total,
+                        shipment_info: isFreeShipping ? 'Spedizione Gratuita' : 'Costi di spedizione applicati'
                     },
                     import.meta.env.VITE_EMAILJS_PUBLIC_KEY
                 );
@@ -87,7 +93,6 @@ const Basket = () => {
             setMessage(err.response?.data?.message || 'Errore di rete.');
         }
     };
-
 
     return (
         <>
@@ -135,10 +140,17 @@ const Basket = () => {
                                     <div className="col-4">
                                         <div className="card">
                                             <h3>Prezzo totale: €{getTotal()}</h3>
+                                            {/* Mostra il messaggio di spedizione gratuita solo se prezzo totale > 25 */}
+                                            {isFreeShipping && (
+                                                <div className="alert alert-success mt-2" role="alert">
+                                                    Hai superato i 25 &#8364;, la spedizione è gratuita!
+                                                </div>
+                                            )}
                                             <button className="btn btn-warning" onClick={clearCart}>Svuota carrello</button>
                                         </div>
                                     </div>
                                 </div>
+                                ---
                                 <h2>Checkout</h2>
                                 <form onSubmit={handleOrder}>
                                     <input name="name" placeholder="Nome" value={form.name} onChange={handleChange} required />
@@ -155,7 +167,7 @@ const Basket = () => {
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
-export default Basket
+export default Basket;

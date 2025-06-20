@@ -31,7 +31,7 @@ export default function GameDetailPage() {
             <div className="gdp-card">
                 <div className="gdp-content">
                     <img
-                        src={game.img}
+                        src={game.image_detail}
                         alt={game.name}
                         className="gdp-image"
                     />

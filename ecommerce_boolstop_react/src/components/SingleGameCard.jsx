@@ -10,7 +10,7 @@ export default function SingleGameCard({ game }) {
 
     return (
         <div className="sgc-card" onClick={handleClick}>
-            <img src={game.img} alt={game.name} className="sgc-image" />
+            <img src={game.image} alt={game.name} className="sgc-image" />
             <div className="sgc-info">
                 <h3 className="sgc-name">{game.name}</h3>
                 <p className="sgc-title">{game.title}</p>
