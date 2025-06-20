@@ -2,17 +2,16 @@
 body {
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(to right,
-            #636363 0%,
-            #636363 10%,
-            #36393e 20%,
-            #36393e 80%,
-            #636363 90%,
-            #636363 100%);
+    background: linear-gradient(135deg, #00ffff, #ff00ff);
     color: white;
 }
 
 /* HEADER */
+
+header {
+    position: relative;
+    z-index: 1000;
+}
 
 .header-wrapper {
     background: linear-gradient(to bottom, #2e2e2e, gray, lightslategrey);
@@ -224,9 +223,8 @@ body {
     align-items: center;
     justify-content: center;
     gap: 1rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     position: relative;
-    margin-top: 1rem;
 }
 
 .gradient-title {
@@ -344,9 +342,9 @@ body {
     padding: 20px;
     padding-bottom: 5px;
     margin-bottom: 30px;
-    background-color: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px);
-    border-radius: 10px;
+    background: rgba(31, 31, 31, 0.9);
+    border-radius: 1.5rem;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
 }
 
 /* Container delle card - layout orizzontale */
@@ -381,10 +379,10 @@ body {
 .shipping-banner {
     background-image: url('./assets/jumbotron-fix.png');
     background-size: cover;
-    background-position-y: -150px;
+    background-position-y: -300px;
     background-repeat: no-repeat;
-    height: 600px;
-    width: 2000px;
+    height: 800px;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -392,16 +390,45 @@ body {
     position: relative;
 }
 
+.shipping-banner::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    /* regola l'altezza come preferisci */
+    background: linear-gradient(to right, #ff00ff, #00ffff);
+    z-index: 2;
+    /* assicurati che stia sopra lo sfondo ma sotto eventuali contenuti */
+}
 
 .shipping-text {
-    font-size: 40px;
-    width: 400px;
+    font-size: 100px;
     font-weight: bold;
     color: #FEC200;
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
-    margin-top: -350px;
-    margin-left: 250px;
     text-align: center;
+}
+
+@media (max-width: 1040px) {
+    .shipping-text {
+        font-size: 75px;
+        font-weight: bold;
+        color: #FEC200;
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+        text-align: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .shipping-text {
+        font-size: 50px;
+        font-weight: bold;
+        color: #FEC200;
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+        text-align: center;
+    }
 }
 
 @keyframes shake {
@@ -805,7 +832,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #00ffff, #ff00ff);
     padding: 2rem;
 }
 
@@ -906,69 +932,18 @@ body {
     font-size: 1.2rem;
 }
 
-/*SingleGameCard*/
-.sgc-card {
-    cursor: pointer;
-    background: #2a2a2a;
-    border-radius: 16px;
-    padding: 16px;
-    color: white;
-    transition: transform 0.2s ease;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
-}
-
-.sgc-card:hover {
-    transform: scale(1.03);
-}
-
-.sgc-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 12px;
-}
-
-.sgc-info {
-    margin-top: 12px;
-}
-
-.sgc-name {
-    font-size: 1.2rem;
-    font-weight: bold;
-}
-
-.sgc-title {
-    font-size: 0.9rem;
-    color: #ccc;
-    margin-top: 4px;
-}
-
-.sgc-price {
-    margin-top: 8px;
-}
-
-.sgc-original-price {
-    text-decoration: line-through;
-    color: #888;
-    margin-right: 8px;
-}
-
-.sgc-discounted-price {
-    color: #00ffcc;
-    font-weight: bold;
-}
-
-.sgc-final-price {
-    color: white;
-    font-weight: bold;
-}
-
 /* SEZIONE POPUP CART */
 
 .cart-wrapper {
     position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cart-icon-wrapper {
+    display: flex;
+    padding-top: 10px;
 }
 
 .cart-hover-popup {
@@ -980,12 +955,13 @@ body {
     color: black;
     border: 1px solid #ccc;
     padding: 10px;
-    z-index: 999;
+    z-index: 1100;
     min-width: 200px;
     box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+    margin-top: 10px;
 }
 
-.cart-wrapper:hover .cart-hover-popup {
+.cart-icon-wrapper:hover .cart-hover-popup {
     display: block;
 }
 
@@ -999,4 +975,10 @@ body {
     font-size: 14px;
     padding: 5px 0;
     border-bottom: 1px solid #eee;
+}
+
+.popup-cart {
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
