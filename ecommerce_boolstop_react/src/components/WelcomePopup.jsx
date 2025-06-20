@@ -10,7 +10,7 @@ const WelcomePopup = () => {
     useEffect(() => {
         const alreadyVisited = sessionStorage.getItem('popup_shown');
         if (!alreadyVisited) {
-            setTimeout(() => setIsVisible(true), 500); // leggero delay
+            setTimeout(() => setIsVisible(true), 500);
         }
     }, []);
 
@@ -18,7 +18,7 @@ const WelcomePopup = () => {
         setIsVisible(false);
         sessionStorage.setItem('popup_shown', 'true');
     };
-
+    // funzione per l'invio della mail
     const sendEmail = (e) => {
         e.preventDefault();
 
@@ -33,7 +33,7 @@ const WelcomePopup = () => {
         )
             .then(() => {
                 alert('Grazie! Email inviata con successo.');
-                closePopup(); // chiude e salva su localStorage
+                closePopup();
             })
             .catch(() => {
                 alert('Errore durante l\'invio della mail.');
