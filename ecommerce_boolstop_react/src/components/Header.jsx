@@ -11,11 +11,7 @@ export default function Header() {
                     <span className="logo-text">BoolStop</span>
                 </Link>
                 <nav className="icons">
-                    <input
-                        type="text"
-                        placeholder="Cerca..."
-                        className="search-bar"
-                    />
+                    <Link to="/wishlist"><i className='fas fa-star'></i></Link>
                     <Link to="/basket"><i className="fas fa-shopping-cart"></i></Link>
                 </nav>
             </header>

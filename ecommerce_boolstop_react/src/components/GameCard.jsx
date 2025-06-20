@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import useCart from '../hooks/useCart';
 import useWishlist from '../hooks/useWishlist';
 
@@ -29,7 +30,9 @@ export default function GameCard({ game }) {
 
             <div className="game-info">
                 <h3 className="game-title2">{game.name}</h3>
-                <p className="game-description">{game.description}</p>
+                <Link to={`/all/${game.id}`}>
+                    <button className="add-to-cart-btn biggerbuy">Vai al gioco!</button>
+                </Link>
             </div>
 
             <div className="price-display">
