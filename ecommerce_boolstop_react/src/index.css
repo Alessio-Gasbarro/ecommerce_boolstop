@@ -379,25 +379,25 @@ body {
 }
 
 .shipping-banner {
-    background-image: url('./assets/jumbomariotron.png');
+    background-image: url('./assets/jumbotron-fix.png');
     background-size: cover;
-    background-position: center;
+    background-position-y: -150px;
     background-repeat: no-repeat;
     height: 600px;
-    width: 1200px;
+    width: 2000px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-family: sans-serif;
     position: relative;
-    border-radius: 24px;
 }
+
 
 .shipping-text {
     font-size: 40px;
     width: 400px;
     font-weight: bold;
-    color: orange;
+    color: #FEC200;
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
     margin-top: -350px;
     margin-left: 250px;
@@ -699,6 +699,7 @@ body {
     color: black;
     text-decoration: line-through;
     margin-top: 5px;
+    color: rgba(168, 168, 168, 0.685);
 }
 
 .action-buttons {
