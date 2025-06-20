@@ -328,6 +328,7 @@ body {
 .most-wanted-section {
     max-width: 1360px;
     margin: 0 auto;
+    margin-top: 30px;
     padding: 20px;
     padding-bottom: 5px;
     margin-bottom: 30px;
@@ -787,4 +788,40 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
+}
+
+/* SEZIONE POPUP CART */
+
+.cart-wrapper {
+    position: relative;
+}
+
+.cart-hover-popup {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    color: black;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 999;
+    min-width: 200px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.cart-wrapper:hover .cart-hover-popup {
+    display: block;
+}
+
+.cart-hover-popup ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.cart-hover-popup li {
+    font-size: 14px;
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
 }
