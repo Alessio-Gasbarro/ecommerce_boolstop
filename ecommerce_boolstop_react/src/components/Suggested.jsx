@@ -11,7 +11,7 @@ const Suggested = ({ saleGames, addToCart }) => {
             </div>
 
             <div className="cards-container">
-                {saleGames.map((game) => (
+                {(saleGames || []).map((game) => (
                     <Link to={`/all/${game.id}`} key={game.id} className="game-card-link">
                         <div className="game-card" key={game.id}>
                             <img src={game.image} alt={game.name} className="game-image" />

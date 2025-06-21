@@ -1,7 +1,14 @@
 import React from 'react';
+import useCart from '../hooks/useCart';
+import useWishlist from '../hooks/useWishlist';
 
 export default function SingleGameCard({ game }) {
     if (!game) return null;
+
+    // custom hook per gestire il carrello
+    const { cart, addToCart, setQuantity } = useCart();
+    // custom hook per gestire la wishlist
+    const { addToWishlist } = useWishlist();
 
     return (
         <>
@@ -27,7 +34,7 @@ export default function SingleGameCard({ game }) {
                                 <div className="gdp-price">
                                     {game.discount ? (
                                         <>
-                                            <p className='gdp-title'>{game.genre}</p>
+                                            <p className='gdp-title'>Genere: {game.genre}</p>
                                             <span className="gdp-original-price">€{game.price}</span>
                                             <span className="gdp-discounted-price">
                                                 €{(game.price * (1 - game.discount)).toFixed(2)}
@@ -42,8 +49,11 @@ export default function SingleGameCard({ game }) {
                                         Sconto del {Math.round(game.discount * 100)}%
                                     </div>
                                 )}
-                                <button className="gdp-buy-button">
-                                    Acquista Ora
+                                <button className="gdp-buy-button" onClick={() => addToCart(game, 1)}>
+                                    Aggiungi al Carrello
+                                </button>
+                                <button className="gdp-buy-button" onClick={() => addToWishlist(game)}>
+                                    Aggiungi alla Wishlist
                                 </button>
                             </div>
                         </div>
