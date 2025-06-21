@@ -8,7 +8,7 @@ export default function useCart() {
 
     useEffect(() => {
         localStorage.setItem('cart', JSON.stringify(cart));
-        window.dispatchEvent(new Event("cartUpdated")); // 👈 evento personalizzato
+        window.dispatchEvent(new Event("cartUpdated"));
     }, [cart]);
 
     const addToCart = (product, quantity = 1) => {

@@ -14,16 +14,16 @@ export default function Videogames() {
     const [currentPage, setCurrentPage] = useState(1);
     // stato per l'ordinamento
     const [sortType, setSortType] = useState('title-asc');
-
     // stato per il termine di ricerca
     const [searchTerm, setSearchTerm] = useState('');
     // stato per i risultati della ricerca
     const [searchResults, setSearchResults] = useState([]);
     // stato per la ricerca
     const [searching, setSearching] = useState(false);
-
+    // stato per numero di giochi per pagina
+    const [gamesPerPage, setGamesPerPage] = useState(9)
     //Numero di giochi per pagina
-    const gamesPerPage = 8;
+    // const gamesPerPage = 8;
     // Pagine totali
     const totalPages = Math.ceil(games.length / gamesPerPage);
 
@@ -136,7 +136,7 @@ export default function Videogames() {
 
                 {/* SEZIONE ORDINAMENTO */}
                 <div className="sort-section" style={{ marginBottom: 24 }}>
-                    <label>Ordina per: </label>
+                    <label>Ordina per:</label>
                     <select value={sortType} onChange={e => setSortType(e.target.value)}>
                         <option value="title-asc">Nome (A-Z)</option>
                         <option value="title-desc">Nome (Z-A)</option>
@@ -147,6 +147,18 @@ export default function Videogames() {
                         <option value="discount-desc">Sconto maggiore</option>
                         <option value="discount-asc">Sconto minore</option>
                     </select>
+                    {/* sezione limite giochi per pagina */}
+                    <div className='sort-section margin'>
+                        <label>Videogiochi per pagina:</label>
+                        <select onChange={(e) => {
+                            setGamesPerPage(parseInt(e.target.value));
+                            setCurrentPage(1);
+                        }}>
+                            <option value="9">9</option>
+                            <option value="18">18</option>
+                            <option value="27">27</option>
+                        </select>
+                    </div>
                 </div>
 
                 {loading && <div className="loading">Caricamento in corso...</div>}

@@ -27,7 +27,6 @@ router.get('/new-releases', gameController.getNewReleases); //http://localhost:3
 router.get('/order', gameController.orderGames);
 //http://localhost:3000/api/games/order
 
-
 // GET - Ordinamento giochi per vari criteri con tipo specificato
 router.get('/order/:type', gameController.orderGames);
 // Esempi di utilizzo per questa rotta:
@@ -46,13 +45,44 @@ router.get('/autocomplete', gameController.searchAutocomplete);
 // Trova tutti i giochi che iniziano con "M"
 // Per ulteriori check, sostituire alla lettera "M" qualsiasi altra lettera o parte del nome del gioco che si desidera cercare.
 
-// GET - Recuperare tutti i giochi (paginazione)
-router.get('/', gameController.index); //http://localhost:3000/api/games?page="1/2/3/4"
 
-// GET - Recuperare un gioco specifico tramite ID
+// GET - Recuperare tutti i giochi (paginazione)
+router.get('/', gameController.index);
+// http://localhost:3000/api/games?page=1&perPage=9
+//Sostituisci il 9 con il numero di prodotti che vuoi visualizzare per pagina (valori consentiti: 9, 18, 27, 36). Se non specifichi il parametro perPage, verrà utilizzato il valore predefinito di 9.
+// http://localhost:3000/api/games?perPage=27&page=2 perPage=27 e page=2 significa che vuoi visualizzare 27 prodotti per pagina e stai richiedendo la seconda pagina dei risultati.
+// Parametri supportati:
+//   - page: numero di pagina (default: 1)
+//   - perPage: prodotti per pagina (valori consentiti: 9, 18, 27, 36, default: 9)
+
+
+// GET - Recuperare un gioco specifico tramite ID (DEVE STARE DOPO TUTTE LE ROTTE SPECIFICHE)
 router.get('/:id', gameController.show); // http://localhost:3000/api/games/10
 
-// POST - Il metodo CREA è vuoto
-router.post('/', gameController.store);
+// POST - Aggiungere nuovo ordine
+router.post('/', gameController.store); //http://localhost:3000/api/games  NEL BODY DELLA RICHIESTA DEVI INSERIRE I DATI DEL GIOCO CHE VUOI AGGIUNGERE IN FORMATO JSON CON: TOTAL_PRICE,SHIPMENT_PRICE,STATUS,NAME,SURNAME,ADDRESS,EMAIL,PHONE,PRODUCTS (QUEST'ULTIMO È UN ARRAY DI OGGETTI CON ID E QUANTITY)
+
+// Ecco un esempio  per fare un check su postman:
+// {
+//   "total_price": 159.99,
+//   "shipment_price": 4.99,
+//   "status": "pending",
+//   "name": "Mario",
+//   "surname": "Rossi",
+//   "address": "Via Roma 123, Milano",
+//   "email": "mario.rossi@example.com",
+//   "phone": "3491234567",
+//   "items": [
+//     {
+//       "id_product": 1,
+//       "quantity": 1
+//     },
+//     {
+//       "id_product": 2,
+//       "quantity": 2
+//     }
+//   ]
+// }
+//}
 
 module.exports = router;

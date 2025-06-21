@@ -409,7 +409,7 @@ header {
 }
 
 .shipping-text {
-    font-size: 100px;
+    font-size: 40px;
     font-weight: bold;
     color: #FEC200;
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
@@ -474,6 +474,7 @@ header {
     border-top: 4px solid;
     border-image: linear-gradient(to right, #ff00ff, #00ffff) 1;
     position: relative;
+    bottom: -40px;
 }
 
 .footer-top,
@@ -756,6 +757,10 @@ header {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 16px;
     margin-left: 80px;
+}
+
+.margin {
+    margin-left: 50%;
 }
 
 .sort-section label {

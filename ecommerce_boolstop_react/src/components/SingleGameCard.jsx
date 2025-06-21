@@ -22,10 +22,12 @@ export default function SingleGameCard({ game }) {
                             />
                             <div className="gdp-details">
                                 <h1 className="gdp-name">{game.name}</h1>
-                                <p className="gdp-title">{game.title}</p>
+
+                                <p className="gdp-title">{game.description}</p>
                                 <div className="gdp-price">
                                     {game.discount ? (
                                         <>
+                                            <p className='gdp-title'>{game.genre}</p>
                                             <span className="gdp-original-price">€{game.price}</span>
                                             <span className="gdp-discounted-price">
                                                 €{(game.price * (1 - game.discount)).toFixed(2)}

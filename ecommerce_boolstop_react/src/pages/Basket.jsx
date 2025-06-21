@@ -141,7 +141,7 @@ const Basket = () => {
                         <div className="clear-wishlist">
                             <div className="section-header with-lines">
                                 <div className="line" />
-                                <h2 className="gradient-title">Il tuo Carrello</h2>
+                                <h2 className="gradient-title">Riepilogo ordine</h2>
                                 <div className="line" />
                             </div>
                             <h3>Totale: €{getTotal()}</h3>

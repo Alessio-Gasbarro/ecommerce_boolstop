@@ -85,6 +85,7 @@ export default function Home() {
                                             </span>
                                         )}
                                     </div>
+
                                     <button className="add-to-cart-btn" onClick={() => addToCart(game, 1)}>
                                         ADD TO CART
                                     </button>

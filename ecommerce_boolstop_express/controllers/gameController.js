@@ -1,17 +1,50 @@
 //Importo connessione al database
 const connection = require('../data/db_games.js');
 
-// GET - Recuperare tutti i giochi con paginazione
+// GET - Recuperare tutti i giochi con paginazione e limite personalizzabile
 const index = (req, res) => {
-    const page = parseInt(req.query.page) || 1;
-    const itemsPerPage = 10;
-    const offset = (page - 1) * itemsPerPage;
+    // Recupero i parametri di paginazione dalla query string
+    const page = parseInt(req.query.page) || 1; // Pagina corrente (default: 1)
+    const perPage = parseInt(req.query.perPage) || 9; // Prodotti per pagina (default: 9)
 
-    connection.query('SELECT * FROM products LIMIT ? OFFSET ?',
-        [itemsPerPage, offset],
+    // Calcolo l'offset per la query SQL
+    const offset = (page - 1) * perPage;
+
+    // Array di valori consentiti per perPage
+    const allowedPerPageValues = [9, 18, 27, 36];
+
+    // Verifica se il valore perPage è consentito, altrimenti usa il default
+    const validPerPage = allowedPerPageValues.includes(perPage) ? perPage : 9;
+
+    // Prima query: recupero i prodotti con paginazione
+    connection.query(
+        'SELECT * FROM products LIMIT ? OFFSET ?',
+        [validPerPage, offset],
         (error, results) => {
             if (error) return res.status(500).json({ success: false, error });
-            return res.json(results);
+
+            // Seconda query: recupero il numero totale di prodotti
+            connection.query(
+                'SELECT COUNT(*) as total FROM products',
+                (countError, countResults) => {
+                    if (countError) return res.status(500).json({ success: false, error: countError });
+
+                    // Calcolo il numero totale di pagine
+                    const total = countResults[0].total;
+                    const totalPages = Math.ceil(total / validPerPage);
+
+                    // Costruisco l'oggetto di risposta con informazioni sulla paginazione
+                    return res.json({
+                        success: true,
+                        currentPage: page,
+                        totalPages: totalPages,
+                        perPage: validPerPage,
+                        total: total,
+                        allowedPerPageValues: allowedPerPageValues,
+                        results: results
+                    });
+                }
+            );
         }
     );
 };
@@ -50,18 +83,7 @@ const store = (req, res) => {
     } = req.body;
 
     // Verifico che siano presenti tutti i campi obbligatori
-    if (
-        total_price === undefined ||
-        shipment_price === undefined ||
-        !status ||
-        !name ||
-        !surname ||
-        !address ||
-        !email ||
-        !phone ||
-        !items ||
-        !Array.isArray(items)
-    ) {
+    if (!total_price || !shipment_price || !status || !name || !surname || !address || !email || !phone || !items || !Array.isArray(items)) {
         return res.status(400).json({
             success: false,
             message: 'Dati mancanti. Tutti i campi sono obbligatori.'
@@ -70,7 +92,7 @@ const store = (req, res) => {
 
     // Validazione basilare dello status
     const validStatus = ['paid', 'shipped', 'cancelled', 'pending']; // Definisco gli stati validi
-    if (!validStatus.includes(status)) { // Controllo se lo status Ã¨ valido
+    if (!validStatus.includes(status)) { // Controllo se lo status è valido
         return res.status(400).json({
             success: false,
             message: 'Status non valido. Valori accettati: paid, shipped, cancelled, pending'
@@ -127,58 +149,6 @@ const store = (req, res) => {
     );
 };
 
-// GET - Ordinamento giochi per vari criteri
-const orderGames = (req, res) => {
-    // Parametro per specificare il tipo di ordinamento
-    const orderType = req.params.type || 'title-asc';
-
-    // Oggetto di configurazione per i diversi tipi di ordinamento
-    const orderConfigs = {
-        // Ordinamento alfabetico
-        'title-asc': { field: 'name', direction: 'ASC' },
-        'title-desc': { field: 'name', direction: 'DESC' },
-
-        // Ordinamento per prezzo
-        'price-asc': { field: 'price', direction: 'ASC' },
-        'price-desc': { field: 'price', direction: 'DESC' },
-
-        // Ordinamento per data di rilascio
-        'release-date-asc': { field: 'release_date', direction: 'ASC' },
-        'release-date-desc': { field: 'release_date', direction: 'DESC' },
-
-        // Ordinamento per sconto
-        'discount-asc': { field: 'discount', direction: 'ASC' },
-        'discount-desc': { field: 'discount', direction: 'DESC' }
-    };
-
-    // Verifica se il tipo di ordinamento è valido
-    if (!orderConfigs[orderType]) {
-        return res.status(400).json({
-            success: false,
-            message: `Tipo di ordinamento "${orderType}" non valido.`,
-        });
-    }
-
-    // Ottengo la configurazione per il tipo di ordinamento richiesto
-    const config = orderConfigs[orderType];
-
-    // Eseguo la query per ordinare i giochi
-    connection.query(
-        `SELECT * FROM products ORDER BY ${config.field} ${config.direction}`,
-        (error, results) => {
-            if (error) {
-                console.error('Errore durante l\'ordinamento dei giochi:', error);
-                return res.status(500).json({
-                    success: false,
-                    message: 'Errore durante l\'ordinamento dei giochi',
-                    error: error.message
-                });
-            }
-            return res.json(results);
-        }
-    );
-};
-
 // GET - Ricerca giochi in offerta (con discount > 0)
 const getDiscounted = (req, res) => {
     connection.query('SELECT * FROM products WHERE discount > 0 ORDER BY discount DESC',
@@ -220,7 +190,7 @@ const sortByGenre = (req, res) => {
 
 // GET - Ricerca unificata (genere e/o sconto)
 const searchGames = (req, res) => {
-    // Otteniamo i parametri dalla query
+    // Ottengo i parametri dalla query
     const { genre, discounted } = req.query;
 
     let query = 'SELECT * FROM products WHERE 1=1'; // Iniziamo con una query di base che seleziona tutti i prodotti
@@ -250,14 +220,14 @@ const searchGames = (req, res) => {
     });
 };
 
-// GET - Recuperare i nuovi arrivi del 
+// GET - Recuperare i nuovi arrivi del 2024
 const getNewReleases = (req, res) => {
-    // Otteniamo il limite opzionale dalla query string o usiamo 8 come predefinito
+    // Ottengo il limite opzionale dalla query string o usiamo 8 come predefinito
     const limit = parseInt(req.query.limit) || 8;
 
-    // Impostiamo le date specifiche 
-    const startDate = '2023-09-01';
-    const endDate = '2025-12-31';
+    // Imposto le date specifiche per il 2024
+    const startDate = '2023-01-01';
+    const endDate = '2023-12-31';
 
     // Query per ottenere i giochi rilasciati nel 2023, ordinati per data di rilascio decrescente
     connection.query(
@@ -277,6 +247,58 @@ const getNewReleases = (req, res) => {
                 });
             }
 
+            return res.json(results);
+        }
+    );
+};
+
+// GET - Ordinamento giochi per vari criteri
+const orderGames = (req, res) => {
+    // Parametro per specificare il tipo di ordinamento
+    const orderType = req.params.type || 'title-asc';
+
+    // Oggetto di configurazione per i diversi tipi di ordinamento
+    const orderConfigs = {
+        // Ordinamento alfabetico
+        'title-asc': { field: 'name', direction: 'ASC' },
+        'title-desc': { field: 'name', direction: 'DESC' },
+
+        // Ordinamento per prezzo
+        'price-asc': { field: 'price', direction: 'ASC' },
+        'price-desc': { field: 'price', direction: 'DESC' },
+
+        // Ordinamento per data di rilascio
+        'release-date-asc': { field: 'release_date', direction: 'ASC' },
+        'release-date-desc': { field: 'release_date', direction: 'DESC' },
+
+        // Ordinamento per sconto
+        'discount-asc': { field: 'discount', direction: 'ASC' },
+        'discount-desc': { field: 'discount', direction: 'DESC' }
+    };
+
+    // Verifica se il tipo di ordinamento è valido
+    if (!orderConfigs[orderType]) {
+        return res.status(400).json({
+            success: false,
+            message: `Tipo di ordinamento "${orderType}" non valido.`,
+        });
+    }
+
+    // Ottengo la configurazione per il tipo di ordinamento richiesto
+    const config = orderConfigs[orderType];
+
+    //Eseguo la query per ordinare i giochi
+    connection.query(
+        `SELECT * FROM products ORDER BY ${config.field} ${config.direction}`,
+        (error, results) => {
+            if (error) {
+                console.error('Errore durante l\'ordinamento dei giochi:', error);
+                return res.status(500).json({
+                    success: false,
+                    message: 'Errore durante l\'ordinamento dei giochi',
+                    error: error.message
+                });
+            }
             return res.json(results);
         }
     );
