@@ -310,7 +310,7 @@ header {
 .add-to-cart-btn {
     width: 100%;
     padding: 6px;
-    background: linear-gradient(270deg, #00ffff, #ff00ff, #00ffff);
+    background: linear-gradient(270deg, #00caca, #ff00ff, #0bc0c0);
     background-size: 600% 600%;
     color: white;
     font-size: 14px;
@@ -575,10 +575,11 @@ header {
     margin-left: 20px;
     max-width: 400px;
     text-decoration: none;
-    background-color: #2d2d2d;
-    border-radius: 15px;
+    background-color: #3d3d3d;
+    border-radius: 13px;
     margin: 0 auto;
-    font-size: 30px;
+    font-size: 20px;
+    margin-top: 10px;
 }
 
 .text-center {
@@ -587,7 +588,11 @@ header {
 
 .btn:hover {
     transform: translateY(-2px);
-    background: linear-gradient(135deg, #1a1a1a, #0044ff);
+    background: linear-gradient(135deg, #1b1b1b, #05d6f1);
+}
+
+input {
+    border-radius: 5px;
 }
 
 /* SEZIONE POPUP DI BENVENUTO */
@@ -671,7 +676,7 @@ header {
     width: 90%;
     margin: 5px;
     display: flex;
-    background-color: lightslategray;
+    background-color: rgb(162, 173, 185);
     border-radius: 10px;
 }
 
@@ -720,7 +725,7 @@ header {
 .current-price-large {
     font-size: 3em;
     font-weight: 600;
-    color: #06402B;
+    color: #0a6425;
     text-shadow: 2px 2px rgb(20, 171, 20), 2px 2px rgb(20, 171, 20);
 }
 
@@ -745,6 +750,7 @@ header {
     font-size: 25px;
     font-weight: bold;
     color: white;
+    border-radius: 10px;
 }
 
 /*SELETTORE OPZIONI*/
@@ -985,6 +991,17 @@ header {
     display: flex;
     align-items: center;
     gap: 5px;
+
+}
+
+a {
+    text-decoration: none;
+}
+
+.testo {
+    position: relative;
+    top: -25px;
+    text-decoration: none;
 }
 
 /*WISHLIST*/
