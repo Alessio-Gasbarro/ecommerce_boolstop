@@ -123,7 +123,7 @@ export default function Header() {
                         <div className="cart-icon-wrapper">
                             <Link to="/basket">
                                 <div className='popup-cart'>
-                                    {cart.length} <i className="fas fa-shopping-cart"></i>
+                                    <div className='testo'>{cart.length}</div>  <i className="fas fa-shopping-cart ">  </i>
                                 </div>
                             </Link>
                             <div className="cart-hover-popup">
