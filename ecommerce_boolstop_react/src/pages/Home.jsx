@@ -5,8 +5,7 @@ import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import axios from "axios";
 import WelcomePopup from '../components/WelcomePopup';
-
-import useCart from '../hooks/useCart'; //import del custom hook carrello
+import useCart from '../hooks/useCart';
 
 export default function Home() {
 
