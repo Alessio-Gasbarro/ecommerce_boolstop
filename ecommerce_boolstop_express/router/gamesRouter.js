@@ -11,10 +11,12 @@ router.get('/all', gameController.getAll); // http://localhost:3000/api/games/
 router.get('/price-range', gameController.getByPriceRange); //http://localhost:3000/api/games/price-range  OPPURE SE VUOI AVERE UN RANGE DI PREZZO SPECIFICO PUOI USARE http://localhost:3000/api/games/price-range?min=10&max=50 DOVE I NUMERI SU MIN E MAX SONO I PREZZI MINIMO E MASSIMO CHE VUOI RICERCARE
 
 // GET - Ricerca giochi in offerta
-router.get('/discounted', gameController.getDiscounted); //http://localhost:3000/api/games/discounted
+//router.get('/discounted', gameController.getDiscounted); //http://localhost:3000/api/games/discounted'
+//Rotta commentata perché ora è stata unificata con la ricerca avanzata
 
 // GET - Recuperare un gioco specifico tramite genere
-router.get('/genre/:genre', gameController.sortByGenre); //http://localhost:3000/api/games/genre/"Inserire il genere"
+//router.get('/genre/:genre', gameController.sortByGenre); //http://localhost:3000/api/games/genre/"Inserire il genere"
+//Rotta commentata perché ora è stata unificata con la ricerca avanzata
 
 // Get - Ricerca unificata per offerta e genere
 router.get('/search', gameController.searchGames); //http://localhost:3000/api/games/search?genre=RPG&discounted=true  SOSTITUISCI RPG CON IL GENERE CHE VUOI RICERCARE E TRUE CON FALSE SE NON VUOI I GIOCHI IN OFFERTA
@@ -27,17 +29,18 @@ router.get('/new-releases', gameController.getNewReleases); //http://localhost:3
 // router.get('/order/:type', gameController.orderGames);
 // router.get('/autocomplete', gameController.searchAutocomplete);
 
-// GET - Rotta unificata per ricerca avanzata (include ordinamento e autocomplete)
+// GET - Rotta unificata per ricerca avanzata (include ordinamento, autocomplete, filtri per genere e sconto)
 router.get('/advanced-search', gameController.advancedSearch);
 
 // Esempi di utilizzo:
 // http://localhost:3000/api/games/advanced-search?term=M (autocomplete)
 // http://localhost:3000/api/games/advanced-search?orderBy=title&direction=asc (A-Z)
-// http://localhost:3000/api/games/advanced-search?orderBy=title&direction=desc (Z-A)
 // http://localhost:3000/api/games/advanced-search?orderBy=price&direction=asc (prezzo crescente)
 // http://localhost:3000/api/games/advanced-search?orderBy=release_date&direction=desc (più recenti)
-// Puoi combinare i parametri:
-// http://localhost:3000/api/games/advanced-search?term=M&orderBy=price&direction=asc
+// http://localhost:3000/api/games/advanced-search?genre=RPG (filtro per genere)
+// http://localhost:3000/api/games/advanced-search?discounted=true (solo prodotti scontati)
+// http://localhost:3000/api/games/advanced-search?genre=RPG&discounted=true (RPG in offerta)
+// http://localhost:3000/api/games/advanced-search?term=M&genre=RPG&orderBy=price&direction=asc (ricerca complessa)
 
 // GET - Recuperare tutti i giochi (paginazione)
 router.get('/', gameController.index);
