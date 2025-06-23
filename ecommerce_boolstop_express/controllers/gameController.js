@@ -1,5 +1,6 @@
 //Importo connessione al database
 const connection = require('../data/db_games.js');
+const slugify = require('slugify'); // Importo slugify per generare gli slug dai nomi dei giochi
 
 // GET - Recuperare tutti i giochi con paginazione e limite personalizzabile
 const index = (req, res) => {
@@ -59,8 +60,8 @@ const getAll = (req, res) => {
 
 // GET - Recuperare un gioco specifico tramite ID
 const show = (req, res) => {
-    const id = req.params.id;
-    connection.query('SELECT * FROM products WHERE id = ?', [id], (error, results) => {
+    const slug = req.params.slug; // Usa slug invece di id
+    connection.query('SELECT * FROM products WHERE slug = ?', [slug], (error, results) => {
         if (error) return res.status(500).json({ success: false, error });
         if (results.length === 0) return res.status(404).json({ success: false, message: 'Gioco non trovato' });
         return res.json(results[0]);
@@ -307,11 +308,9 @@ const orderGames = (req, res) => {
 // GET - Ricerca autocomplete per nome del gioco (case-insensitive)
 const searchAutocomplete = (req, res) => {
     try {
-        // Ottieni il termine di ricerca dalla query string
         const term = req.query.term;
         console.log('Termine ricevuto:', term);
 
-        // Se non c'è un termine di ricerca, restituisci un array vuoto
         if (!term || term.trim() === '') {
             return res.json({
                 success: true,
@@ -320,11 +319,11 @@ const searchAutocomplete = (req, res) => {
             });
         }
 
-        // Uso LOWER per rendere la ricerca case-insensitive
-        const query = 'SELECT id, name, price, image, discount FROM products WHERE LOWER(name) LIKE LOWER(?) ORDER BY name ASC LIMIT 10';
-        const searchPattern = term + '%'; // Sostituisco il punto interrogativo con il termine di ricerca seguito da un carattere jolly che rappresenta qualsiasi sequenza di caratteri
+        // Aggiungi "slug" nella selezione
+        const query = 'SELECT id, name, slug, price, image, discount FROM products WHERE LOWER(name) LIKE LOWER(?) ORDER BY name ASC LIMIT 10';
+        const searchPattern = term + '%';
 
-        connection.query( // Eseguo la query di ricerca
+        connection.query(
             query,
             [searchPattern],
             (error, results) => {
