@@ -1,24 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logoBoolStop from '../assets/logoBoolStop.png';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 export default function Header() {
 
-    // Stato per il carrello
     const [cart, setCart] = useState(() => {
         const stored = localStorage.getItem('cart');
         return stored ? JSON.parse(stored) : [];
     });
 
-    // Stato per la ricerca
+    const [wishlist, setWishlist] = useState(() => {
+        const stored = localStorage.getItem('wishlist');
+        return stored ? JSON.parse(stored) : [];
+    });
+
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [searching, setSearching] = useState(false);
     const navigate = useNavigate();
 
-    // Gestione del click su un risultato di ricerca
     const handleSearch = async (e) => {
         const value = e.target.value;
         setSearchTerm(value);
@@ -36,28 +37,53 @@ export default function Header() {
         setSearching(false);
     };
 
-    // Quando clicchi su un risultato
     const handleSelectSearchResult = (game) => {
         setSearchTerm('');
         setSearchResults([]);
         navigate(`/all/${game.id}`);
     };
 
-    // Gestione della ricerca
     useEffect(() => {
         const updateCart = () => {
             const stored = localStorage.getItem('cart');
             setCart(stored ? JSON.parse(stored) : []);
         };
 
-        // Ascolta quando il carrello viene aggiornato
-        window.addEventListener('cartUpdated', updateCart);
+        const updateWishlist = () => {
+            const stored = localStorage.getItem('wishlist');
+            setWishlist(stored ? JSON.parse(stored) : []);
+        };
 
-        // Pulisce l’evento alla fine
+        window.addEventListener('cartUpdated', updateCart);
+        window.addEventListener('wishlistUpdated', updateWishlist);
+
         return () => {
             window.removeEventListener('cartUpdated', updateCart);
+            window.removeEventListener('wishlistUpdated', updateWishlist);
         };
     }, []);
+
+    const iconSize = 28;
+    const badgeSize = 20;
+    const badgeStyle = {
+        position: 'absolute',
+        top: -badgeSize / 2 + 2,
+        left: -badgeSize / 2 + 2,
+        backgroundColor: 'red',
+        color: 'white',
+        borderRadius: '50%',
+        width: badgeSize,
+        height: badgeSize,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontSize: 13,
+        fontWeight: 'bold',
+        boxShadow: '0 0 3px rgba(0,0,0,0.3)',
+        pointerEvents: 'none',
+        userSelect: 'none',
+        lineHeight: 1,
+    };
 
     return (
         <div className="header-wrapper">
@@ -66,7 +92,7 @@ export default function Header() {
                     <img src={logoBoolStop} alt="Logo BoolStop" />
                     <span className="logo-text">BoolStop</span>
                 </Link>
-                <nav className="icons">
+                <nav className="icons" style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
                     <div style={{ position: 'relative', display: 'inline-block' }}>
                         <input
                             type="text"
@@ -113,32 +139,67 @@ export default function Header() {
                                     padding: '8px'
                                 }}
                             >
-                                Nessun risultato
+                                <div style={{ color: ' black ' }}>Nessun risultato</div>
                             </div>
                         )}
                     </div>
-                    <div className="cart-wrapper">
-                        <Link to="/wishlist"><i className='fas fa-star'></i></Link>
 
-                        <div className="cart-icon-wrapper">
-                            <Link to="/basket">
-                                <div className='popup-cart'>
-                                    <div className='testo'>{cart.length}</div>  <i className="fas fa-shopping-cart ">  </i>
-                                </div>
-                            </Link>
-                            <div className="cart-hover-popup">
-                                {cart.length === 0 ? (
-                                    <p>Il carrello è vuoto</p>
-                                ) : (
-                                    <ul>
-                                        {cart.map(item => (
-                                            <li key={item.id}>
-                                                {item.name} (x{item.quantity})
-                                            </li>
-                                        ))}
-                                    </ul>
-                                )}
-                            </div>
+                    {/* Wishlist Icon */}
+                    <div
+                        className="wishlist-icon-wrapper"
+                        style={{
+                            position: 'relative',
+                            display: 'inline-block',
+                            width: 50,
+                            height: iconSize,
+                            fontSize: iconSize,
+                            textAlign: 'center',
+                            lineHeight: `${iconSize}px`,
+                        }}
+                    >
+                        <Link to="/wishlist" style={{ position: 'relative', display: 'inline-block', width: '100%', height: '100%' }}>
+                            <i className='fas fa-star' style={{ fontSize: 40, verticalAlign: 'middle' }}></i>
+                            {wishlist.length > 0 && (
+                                <span style={badgeStyle}>
+                                    {wishlist.length}
+                                </span>
+                            )}
+                        </Link>
+                    </div>
+
+                    {/* Cart Icon */}
+                    <div
+                        className="cart-icon-wrapper"
+                        style={{
+                            position: 'relative',
+                            display: 'inline-block',
+                            width: 40,
+                            height: 32,
+                            fontSize: iconSize,
+                            textAlign: 'center',
+                            lineHeight: `${iconSize}px`,
+                        }}
+                    >
+                        <Link to="/basket" style={{ position: 'relative', display: 'inline-block', width: '100%', height: '100%' }}>
+                            <i className="fas fa-shopping-cart" style={{ fontSize: 40, verticalAlign: 'middle' }}></i>
+                            {cart.length > 0 && (
+                                <span style={badgeStyle}>
+                                    {cart.length}
+                                </span>
+                            )}
+                        </Link>
+                        <div className="cart-hover-popup">
+                            {cart.length === 0 ? (
+                                <p>Il carrello è vuoto</p>
+                            ) : (
+                                <ul>
+                                    {cart.map(item => (
+                                        <li key={item.id}>
+                                            {item.name} (x{item.quantity})
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
                         </div>
                     </div>
                 </nav>
