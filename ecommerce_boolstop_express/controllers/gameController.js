@@ -407,8 +407,12 @@ const advancedSearch = (req, res) => {
             query += ' ORDER BY name ASC';
         }
 
-        // Limito i risultati a 100 per evitare overload
-        query += ' LIMIT 100';
+        // Gestione del limite personalizzato
+        let limit = 100;
+        if (req.query.limit && !isNaN(parseInt(req.query.limit))) {
+            limit = Math.min(parseInt(req.query.limit), 100); // massimo 100 per sicurezza
+        }
+        query += ` LIMIT ${limit}`;
 
         // Eseguo la query
         connection.query(query, params, (error, results) => {
