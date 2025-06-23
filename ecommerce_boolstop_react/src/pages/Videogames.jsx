@@ -246,7 +246,7 @@ export default function Videogames() {
                 {!loading && !error && (
                     <div className="cards-container">
                         {displayedGames.map((game) => (
-                            <GameCard key={game.id} game={game} />
+                            <GameCard key={game.slug} game={game} />
                         ))}
                     </div>
                 )}

@@ -22,6 +22,7 @@ const Basket = () => {
     const fetchSaleGames = () => {
         axios.get('http://localhost:3000/api/games/discounted')
             .then((resp) => {
+                console.log('Giochi in offerta:', resp.data);
                 setSaleGames(resp.data);
             })
             .catch((err) => {
