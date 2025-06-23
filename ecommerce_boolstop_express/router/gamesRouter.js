@@ -22,29 +22,22 @@ router.get('/search', gameController.searchGames); //http://localhost:3000/api/g
 // GET - Recuperare i nuovi arrivi
 router.get('/new-releases', gameController.getNewReleases); //http://localhost:3000/api/games/new-releases?limit=4 Recupera i primi 4 giochi aggiunti di recente. Puoi cambiare il numero di giochi cambiando il valore di limit nell'URL.
 
-// GET - Ordinamento giochi per vari criteri
-// Versione senza parametro opzionale : rotta base
-router.get('/order', gameController.orderGames);
-//http://localhost:3000/api/games/order
+// GET - Vecchie rotte prima di unificare la ricerca avanzata
+// router.get('/order', gameController.orderGames);
+// router.get('/order/:type', gameController.orderGames);
+// router.get('/autocomplete', gameController.searchAutocomplete);
 
-// GET - Ordinamento giochi per vari criteri con tipo specificato
-router.get('/order/:type', gameController.orderGames);
-// Esempi di utilizzo per questa rotta:
-// http://localhost:3000/api/games/order/title-asc  (A-Z)
-// http://localhost:3000/api/games/order/title-desc (Z-A)
-// http://localhost:3000/api/games/order/price-asc  (prezzo crescente)
-// http://localhost:3000/api/games/order/price-desc (prezzo decrescente)
-// http://localhost:3000/api/games/order/release-date-desc (più recenti)
-// http://localhost:3000/api/games/order/release-date-asc (più vecchi)
-// http://localhost:3000/api/games/order/discount-desc (maggior sconto)
-// http://localhost:3000/api/games/order/discount-asc (minor sconto)
+// GET - Rotta unificata per ricerca avanzata (include ordinamento e autocomplete)
+router.get('/advanced-search', gameController.advancedSearch);
 
-// GET - Ricerca autocomplete per nome del gioco
-router.get('/autocomplete', gameController.searchAutocomplete);
-// http://localhost:3000/api/games/autocomplete?term=M
-// Trova tutti i giochi che iniziano con "M"
-// Per ulteriori check, sostituire alla lettera "M" qualsiasi altra lettera o parte del nome del gioco che si desidera cercare.
-
+// Esempi di utilizzo:
+// http://localhost:3000/api/games/advanced-search?term=M (autocomplete)
+// http://localhost:3000/api/games/advanced-search?orderBy=title&direction=asc (A-Z)
+// http://localhost:3000/api/games/advanced-search?orderBy=title&direction=desc (Z-A)
+// http://localhost:3000/api/games/advanced-search?orderBy=price&direction=asc (prezzo crescente)
+// http://localhost:3000/api/games/advanced-search?orderBy=release_date&direction=desc (più recenti)
+// Puoi combinare i parametri:
+// http://localhost:3000/api/games/advanced-search?term=M&orderBy=price&direction=asc
 
 // GET - Recuperare tutti i giochi (paginazione)
 router.get('/', gameController.index);
