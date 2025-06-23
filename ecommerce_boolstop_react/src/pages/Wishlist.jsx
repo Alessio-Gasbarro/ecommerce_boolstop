@@ -1,10 +1,30 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import useWishlist from '../hooks/useWishlist';
 import useCart from '../hooks/useCart';
+import axios from 'axios';
+import Suggested from '../components/Suggested';
+import { Link } from 'react-router-dom';
 
 const Wishlist = () => {
     const { wishlist, removeFromWishlist, clearWishlist } = useWishlist();
     const { cart, addToCart } = useCart();
+
+    const [saleGames, setSaleGames] = useState([]);
+
+
+    const fetchSaleGames = () => {
+        axios.get('http://localhost:3000/api/games/discounted')
+            .then(resp => {
+                setSaleGames(resp.data);
+            })
+            .catch(err => {
+                console.log('Errore fetch giochi in sconto:', err);
+            });
+    };
+
+    useEffect(() => {
+        fetchSaleGames();
+    }, []);
 
     const isWishlistEmpty = wishlist.length === 0;
 
@@ -51,6 +71,15 @@ const Wishlist = () => {
                     )}
                 </div>
             </section>
+
+            {saleGames.length > 0 && (
+                <Suggested saleGames={saleGames} addToCart={addToCart} />
+            )}
+
+            <div className="most-wanted-section">
+                <Link to={`/all`} className="">Esplora altro</Link>
+                <Link to={`/`} className="">Torna a HomePage</Link>
+            </div>
         </>
     );
 };

@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useCart from '../hooks/useCart';
 import axios from 'axios';
 import emailjs from '@emailjs/browser';
+import Suggested from '../components/Suggested';
 
 const Basket = () => {
-    const { cart, removeFromCart, clearCart, setQuantity } = useCart();
+    const { cart, addToCart, removeFromCart, clearCart, setQuantity } = useCart();
 
     const [form, setForm] = useState({
         name: '',
@@ -15,6 +16,23 @@ const Basket = () => {
     });
 
     const [message, setMessage] = useState('');
+    const [saleGames, setSaleGames] = useState([]);
+
+    //fetch giochi in offerta
+    const fetchSaleGames = () => {
+        axios.get('http://localhost:3000/api/games/discounted')
+            .then((resp) => {
+                setSaleGames(resp.data);
+            })
+            .catch((err) => {
+                console.log('Errore nel fetch dei giochi in sconto:', err);
+            });
+    };
+
+    //useEffect per chiamare fetch all'avvio
+    useEffect(() => {
+        fetchSaleGames();
+    }, []);
 
     const getDiscountedPrice = (item) =>
         item.discount
@@ -90,86 +108,91 @@ const Basket = () => {
     };
 
     return (
-        <section className="most-wanted-section wishlist-section">
-            <div className="section-header with-lines">
-                <div className="line" />
-                <h2 className="gradient-title">Il tuo Carrello</h2>
-                <div className="line" />
-            </div>
+        <>
+            <section className="most-wanted-section wishlist-section">
+                <div className="section-header with-lines">
+                    <div className="line" />
+                    <h2 className="gradient-title">Il tuo Carrello</h2>
+                    <div className="line" />
+                </div>
 
-            <div className="wishlist-content">
-                {cart.length === 0 ? (
-                    <div className="empty-wishlist">
-                        <p>Il carrello è vuoto.</p>
-                    </div>
-                ) : (
-                    <div className="wishlist-grid">
-                        {cart.map(item => (
-                            <div key={item.id} className="wishlist-card large">
-                                {item.image && (
-                                    <img
-                                        src={item.image}
-                                        alt={item.name}
-                                        className="wishlist-game-image"
-                                    />
-                                )}
-                                <div className="wishlist-info">
-                                    <h3 className="game-name">{item.name}</h3>
-                                    <p className="game-price">
-                                        €{getDiscountedPrice(item)}{' '}
-                                        {item.discount > 0 && (
-                                            <span className="original-price">€{parseFloat(item.price).toFixed(2)}</span>
-                                        )}
-                                    </p>
-                                    <label>
-                                        Quantità:
-                                        <input
-                                            type="number"
-                                            min="1"
-                                            value={item.quantity}
-                                            onChange={e => setQuantity(item.id, parseInt(e.target.value) || 1)}
-                                            style={{ width: '60px', marginLeft: '8px' }}
+                <div className="wishlist-content">
+                    {cart.length === 0 ? (
+                        <div className="empty-wishlist">
+                            <p>Il carrello è vuoto.</p>
+                        </div>
+                    ) : (
+                        <div className="wishlist-grid">
+                            {cart.map(item => (
+                                <div key={item.id} className="wishlist-card large">
+                                    {item.image && (
+                                        <img
+                                            src={item.image}
+                                            alt={item.name}
+                                            className="wishlist-game-image"
                                         />
-                                    </label>
+                                    )}
+                                    <div className="wishlist-info">
+                                        <h3 className="game-name">{item.name}</h3>
+                                        <p className="game-price">
+                                            €{getDiscountedPrice(item)}{' '}
+                                            {item.discount > 0 && (
+                                                <span className="original-price">€{parseFloat(item.price).toFixed(2)}</span>
+                                            )}
+                                        </p>
+                                        <label>
+                                            Quantità:
+                                            <input
+                                                type="number"
+                                                min="1"
+                                                value={item.quantity}
+                                                onChange={e => setQuantity(item.id, parseInt(e.target.value) || 1)}
+                                                style={{ width: '60px', marginLeft: '8px' }}
+                                            />
+                                        </label>
+                                    </div>
+                                    <div className="wishlist-actions">
+                                        <button onClick={() => removeFromCart(item.id)}>Rimuovi</button>
+                                    </div>
                                 </div>
-                                <div className="wishlist-actions">
-                                    <button onClick={() => removeFromCart(item.id)}>Rimuovi</button>
+                            ))}
+
+                            <div className="clear-wishlist">
+                                <div className="section-header with-lines">
+                                    <div className="line" />
+                                    <h2 className="gradient-title">Riepilogo ordine</h2>
+                                    <div className="line" />
                                 </div>
+                                <h3>Totale: €{getTotal()}</h3>
+                                {isFreeShipping && (
+                                    <h4>Hai superato i 25€, la spedizione è gratuita!</h4>
+                                )}
+                                <button onClick={clearCart}>Svuota carrello</button>
                             </div>
-                        ))}
 
-                        <div className="clear-wishlist">
-                            <div className="section-header with-lines">
-                                <div className="line" />
-                                <h2 className="gradient-title">Riepilogo ordine</h2>
-                                <div className="line" />
+                            <div className="checkout-form">
+                                <h2>Checkout</h2>
+                                <form onSubmit={handleOrder}>
+                                    <div className="inputs-row">
+                                        <input name="name" placeholder="Nome" value={form.name} onChange={handleChange} required />
+                                        <input name="surname" placeholder="Cognome" value={form.surname} onChange={handleChange} required />
+                                        <input name="address" placeholder="Indirizzo" value={form.address} onChange={handleChange} required />
+                                        <input name="email" type="email" placeholder="Email" value={form.email} onChange={handleChange} required />
+                                        <input name="phone" placeholder="Telefono" value={form.phone} onChange={handleChange} required />
+                                    </div>
+                                    <button type="submit" className="btn btn-success mt-2">Invia Ordine</button>
+                                </form>
+                                {message && <p>{message}</p>}
                             </div>
-                            <h3>Totale: €{getTotal()}</h3>
-                            {isFreeShipping && (
-                                <h4>Hai superato i 25€, la spedizione è gratuita!</h4>
-                            )}
-                            <button onClick={clearCart}>Svuota carrello</button>
                         </div>
+                    )}
+                </div>
+            </section>
 
-                        <div className="checkout-form">
-                            <h2>Checkout</h2>
-                            <form onSubmit={handleOrder}>
-                                <div className="inputs-row">
-                                    <input name="name" placeholder="Nome" value={form.name} onChange={handleChange} required />
-                                    <input name="surname" placeholder="Cognome" value={form.surname} onChange={handleChange} required />
-                                    <input name="address" placeholder="Indirizzo" value={form.address} onChange={handleChange} required />
-                                    <input name="email" type="email" placeholder="Email" value={form.email} onChange={handleChange} required />
-                                    <input name="phone" placeholder="Telefono" value={form.phone} onChange={handleChange} required />
-                                </div>
-                                <button type="submit" className="btn btn-success mt-2">Invia Ordine</button>
-                            </form>
-                            {message && <p>{message}</p>}
-                        </div>
-
-                    </div>
-                )}
-            </div>
-        </section>
+            {saleGames.length > 0 && (
+                <Suggested saleGames={saleGames} addToCart={addToCart} />
+            )}
+        </>
     );
 };
 

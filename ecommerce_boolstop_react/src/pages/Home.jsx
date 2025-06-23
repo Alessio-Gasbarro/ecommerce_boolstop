@@ -86,9 +86,12 @@ export default function Home() {
                                         )}
                                     </div>
 
-                                    <button className="add-to-cart-btn" onClick={() => addToCart(game, 1)}>
-                                        ADD TO CART
-                                    </button>
+                                    <button className="add-to-cart-btn" onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        addToCart(game, 1);
+                                    }}
+                                    >Aggiungi al Carrello!</button>
                                     {game.discount > 0 && (
                                         <div className="discount-tag">-{game.discount}%</div>
                                     )}
@@ -124,9 +127,12 @@ export default function Home() {
                                             </span>
                                         )}
                                     </div>
-                                    <button className="add-to-cart-btn" onClick={() => addToCart(game, 1)}>
-                                        ADD TO CART
-                                    </button>
+                                    <button className="add-to-cart-btn" onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        addToCart(game, 1);
+                                    }}
+                                    >Aggiungi al Carrello!</button>
                                     {game.discount > 0 && (
                                         <div className="discount-tag">
                                             -{Math.round(game.discount * 100)}%

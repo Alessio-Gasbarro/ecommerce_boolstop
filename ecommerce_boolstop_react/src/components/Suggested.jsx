@@ -6,7 +6,7 @@ const Suggested = ({ saleGames, addToCart }) => {
         <section className="most-wanted-section">
             <div className="section-header with-lines">
                 <div className="line" />
-                <h2 className="gradient-title">Altri prodotti che potrebbero piacerti...</h2>
+                <h2 className="gradient-title">Altri prodotti che potrebbero interessarti...</h2>
                 <div className="line" />
             </div>
 
@@ -27,12 +27,12 @@ const Suggested = ({ saleGames, addToCart }) => {
                                         </span>
                                     )}
                                 </div>
-                                <button
-                                    className="add-to-cart-btn"
-                                    onClick={() => addToCart(game, 1)}
-                                >
-                                    ADD TO CART
-                                </button>
+                                <button className="add-to-cart-btn" onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    addToCart(game, 1);
+                                }}
+                                >Aggiungi al Carrello!</button>
                                 {game.discount > 0 && (
                                     <div className="discount-tag">
                                         -{Math.round(game.discount * 100)}%
