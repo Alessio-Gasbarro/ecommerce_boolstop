@@ -11,17 +11,27 @@ export default function useCart() {
         window.dispatchEvent(new Event("cartUpdated"));
     }, [cart]);
 
-    const addToCart = (product, quantity = 1) => {
-        setCart(prev => {
-            const existing = prev.find(item => item.id === product.id);
+    const addToCart = (game, quantity = 1) => {
+        setCart(prevCart => {
+            // Cerca se il gioco è già nel carrello
+            const existing = prevCart.find(item => item.id === game.id);
+            let updatedCart;
             if (existing) {
-                return prev.map(item =>
-                    item.id === product.id
+                // Se già presente, aggiorna la quantità
+                updatedCart = prevCart.map(item =>
+                    item.id === game.id
                         ? { ...item, quantity: item.quantity + quantity }
                         : item
                 );
+            } else {
+                // Se non presente, aggiungi nuovo gioco
+                updatedCart = [...prevCart, { ...game, quantity }];
             }
-            return [...prev, { ...product, quantity }];
+            // Salva su localStorage
+            localStorage.setItem('cart', JSON.stringify(updatedCart));
+            // (Se usi evento custom, dispatch qui)
+            window.dispatchEvent(new Event('cartUpdated'));
+            return updatedCart;
         });
     };
 
