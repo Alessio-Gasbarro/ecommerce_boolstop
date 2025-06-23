@@ -42,6 +42,8 @@ header {
     background-color: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(8px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.4);
+    /* ombra in basso */
 }
 
 .logo-text {
@@ -1035,11 +1037,6 @@ a {
     text-decoration: none;
 }
 
-.testo {
-    position: relative;
-    top: -25px;
-    text-decoration: none;
-}
 
 /*WISHLIST*/
 .wishlist-section {
@@ -1227,3 +1224,19 @@ a {
 }
 
 /*Funzione Pulsanti fondo pagina Wishlist&Cart*/
+
+.search-bar {
+    width: 20%;
+}
+
+.game-title2 {
+    font-size: 22px;
+}
+
+.biggerbuy {
+    font-size: 18px;
+}
+
+.margin {
+    margin-left: 20%;
+}
