@@ -30,7 +30,7 @@ export default function GameCard({ game }) {
 
             <div className="game-info">
                 <h3 className="game-title2">{game.name}</h3>
-                <Link to={`/all/${game.id}`}>
+                <Link to={`/all/${game.slug}`}>
                     <button className="add-to-cart-btn biggerbuy">Vai al gioco!</button>
                 </Link>
             </div>

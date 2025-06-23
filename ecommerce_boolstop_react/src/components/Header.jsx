@@ -29,7 +29,7 @@ export default function Header() {
         }
         setSearching(true);
         try {
-            const res = await axios.get(`/api/games/autocomplete?term=${encodeURIComponent(value)}`);
+            const res = await axios.get(`/api/games/advanced-search?term=${encodeURIComponent(value)}`);
             setSearchResults(res.data.results || []);
         } catch (err) {
             setSearchResults([]);
@@ -40,7 +40,7 @@ export default function Header() {
     const handleSelectSearchResult = (game) => {
         setSearchTerm('');
         setSearchResults([]);
-        navigate(`/all/${game.id}`);
+        navigate(`/all/${game.slug}`); //slug
     };
 
     useEffect(() => {

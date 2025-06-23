@@ -27,13 +27,29 @@ export default function Videogames() {
     // Pagine totali
     const totalPages = Math.ceil(games.length / gamesPerPage);
 
+    // Funzione per ottenere i parametri di ordinamento in base al tipo di ordinamento selezionato
+    function getOrderParams(sortType) {
+        switch (sortType) {
+            case 'title-asc': return { orderBy: 'title', direction: 'asc' };
+            case 'title-desc': return { orderBy: 'title', direction: 'desc' };
+            case 'price-asc': return { orderBy: 'price', direction: 'asc' };
+            case 'price-desc': return { orderBy: 'price', direction: 'desc' };
+            case 'release-date-asc': return { orderBy: 'release_date', direction: 'asc' };
+            case 'release-date-desc': return { orderBy: 'release_date', direction: 'desc' };
+            case 'discount-asc': return { orderBy: 'discount', direction: 'asc' };
+            case 'discount-desc': return { orderBy: 'discount', direction: 'desc' };
+            default: return { orderBy: 'title', direction: 'asc' };
+        }
+    }
+
     // Caricamento dei giochi all'avvio e al cambio dell'ordinamento
     useEffect(() => {
-        if (searchTerm) return; // Non carica se si sta cercando
+        if (searchTerm) return; // Non caricare se stai cercando
         setLoading(true);
-        axios.get(`/api/games/order/${sortType}`)
+        const { orderBy, direction } = getOrderParams(sortType);
+        axios.get(`/api/games/advanced-search?orderBy=${orderBy}&direction=${direction}`)
             .then(response => {
-                setGames(response.data);
+                setGames(response.data.results || []);
                 setLoading(false);
             })
             .catch(err => {
@@ -55,18 +71,19 @@ export default function Videogames() {
         if (value.trim() === '') {
             setSearchResults([]);
             setLoading(true);
-            axios.get(`/api/games/order/${sortType}`)
+            const { orderBy, direction } = getOrderParams(sortType);
+            axios.get(`/api/games/advanced-search?orderBy=${orderBy}&direction=${direction}`)
                 .then(response => {
-                    setGames(response.data);
+                    setGames(response.data.results || []);
                     setLoading(false);
                 });
             return;
         }
         setSearching(true);
         try {
-            const res = await axios.get(`/api/games/autocomplete?term=${encodeURIComponent(value)}`);
+            const res = await axios.get(`/api/games/advanced-search?term=${encodeURIComponent(value)}`);
             setSearchResults(res.data.results || []);
-            setGames(res.data.results || []); // Mostra tutti i risultati della ricerca
+            setGames(res.data.results || []);
             setCurrentPage(1);
         } catch (err) {
             setSearchResults([]);
@@ -95,9 +112,10 @@ export default function Videogames() {
         setSearchTerm('');
         setSearchResults([]);
         setLoading(true);
-        axios.get(`/api/games/order/${sortType}`)
+        const { orderBy, direction } = getOrderParams(sortType);
+        axios.get(`/api/games/advanced-search?orderBy=${orderBy}&direction=${direction}`)
             .then(response => {
-                setGames(response.data);
+                setGames(response.data.results || []);
                 setLoading(false);
             });
     };

@@ -15,7 +15,7 @@ export default function App() {
         <Route element={<DefaultLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/all" element={<Videogames />} />
-          <Route path="/all/:id" element={<SingleGame />} />
+          <Route path="/all/:slug" element={<SingleGame />} />
           <Route path="/basket" element={<Basket />} />
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="*" element={<NotFoundPage />} />

@@ -6,7 +6,7 @@ import SingleGameCard from '../components/SingleGameCard';
 import Suggested from '../components/Suggested';
 
 export default function SingleGame() {
-    const { id } = useParams();
+    const { slug } = useParams();
     const { addToCart } = useCart();
 
     const [game, setGame] = useState(null);
@@ -14,10 +14,10 @@ export default function SingleGame() {
 
     // Carica il gioco specifico
     useEffect(() => {
-        axios.get(`http://localhost:3000/api/games/${id}`)
+        axios.get(`http://localhost:3000/api/games/${slug}`)
             .then(resp => setGame(resp.data))
             .catch(err => console.error(err));
-    }, [id]);
+    }, [slug]);
 
     // Carica i giochi in offerta
     useEffect(() => {
