@@ -57,7 +57,12 @@ router.get('/', gameController.index);
 
 
 // GET - Recuperare un gioco specifico tramite ID (DEVE STARE DOPO TUTTE LE ROTTE SPECIFICHE)
-router.get('/:id', gameController.show); // http://localhost:3000/api/games/10
+// router.get('/:id', gameController.show); // http://localhost:3000/api/games/10
+//Commentata la rotta sopra perché ora vogliamo usare gli slug invece degli id per recuperare i giochi.
+
+//  GET - Modifica della rotta sopra per implementare gli slug
+router.get('/:slug', gameController.show); // http://localhost:3000/api/games/10
+//Se si vuole fare una ricerca più specifica, si può usare lo slug del gioco invece dell'id. Ad esempio, se il gioco ha uno slug come "the-legend-of-zelda", la rotta sarà http://localhost:3000/api/games/the-legend-of-zelda
 
 // POST - Aggiungere nuovo ordine
 router.post('/', gameController.store); //http://localhost:3000/api/games  NEL BODY DELLA RICHIESTA DEVI INSERIRE I DATI DEL GIOCO CHE VUOI AGGIUNGERE IN FORMATO JSON CON: TOTAL_PRICE,SHIPMENT_PRICE,STATUS,NAME,SURNAME,ADDRESS,EMAIL,PHONE,PRODUCTS (QUEST'ULTIMO È UN ARRAY DI OGGETTI CON ID E QUANTITY)
