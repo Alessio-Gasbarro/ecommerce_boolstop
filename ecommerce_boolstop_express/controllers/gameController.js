@@ -355,6 +355,72 @@ const searchAutocomplete = (req, res) => {
     }
 };
 
+// GET - Ricerca avanzata unificata (autocomplete + ordinamento)
+const advancedSearch = (req, res) => {
+    try {
+        // Estraggo i parametri dalla query
+        const { term, orderBy, direction } = req.query;
+
+        // Preparo la query di base
+        let query = 'SELECT * FROM products WHERE 1=1';
+        const params = [];
+
+        // Se è specificato un termine di ricerca, aggiungo la condizione per l'autocomplete
+        if (term && term.trim() !== '') {
+            query += ' AND LOWER(name) LIKE LOWER(?)';
+            params.push(term + '%');
+        }
+
+        // Gestisco l'ordinamento
+        if (orderBy) {
+            // Mappa dei campi consentiti per l'ordinamento
+            const allowedFields = {
+                'title': 'name',
+                'price': 'price',
+                'release_date': 'release_date',
+                'discount': 'discount'
+            };
+
+            // Verifico che il campo di ordinamento sia valido
+            const field = allowedFields[orderBy];
+            if (field) {
+                // Direzione di ordinamento (default: ASC)
+                const sortDirection = direction === 'desc' ? 'DESC' : 'ASC';
+                query += ` ORDER BY ${field} ${sortDirection}`;
+            }
+        } else {
+            // Ordinamento predefinito
+            query += ' ORDER BY name ASC';
+        }
+
+        // Eseguo la query
+        connection.query(query, params, (error, results) => {
+            if (error) {
+                console.error('Errore nella ricerca avanzata:', error);
+                return res.status(500).json({
+                    success: false,
+                    message: 'Errore durante la ricerca avanzata',
+                    error: error.message
+                });
+            }
+
+            return res.json({
+                success: true,
+                count: results.length,
+                results: results
+            });
+        });
+
+    } catch (err) {
+        console.error('Errore generale in advancedSearch:', err);
+        return res.status(500).json({
+            success: false,
+            message: 'Errore interno del server',
+            error: err.message
+        });
+    }
+};
+
 // Esporto i metodi
 module.exports = {
     index,
@@ -367,5 +433,6 @@ module.exports = {
     searchGames,
     getNewReleases,
     orderGames,
-    searchAutocomplete
+    searchAutocomplete,
+    advancedSearch
 };
