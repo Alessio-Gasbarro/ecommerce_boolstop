@@ -355,20 +355,31 @@ const searchAutocomplete = (req, res) => {
     }
 };
 
-// GET - Ricerca avanzata unificata (autocomplete + ordinamento)
+// GET - Ricerca avanzata unificata (autocomplete + ordinamento + filtri per genere e sconti)
 const advancedSearch = (req, res) => {
     try {
-        // Estraggo i parametri dalla query
-        const { term, orderBy, direction } = req.query;
+        // Estraggo tutti i parametri dalla query
+        const { term, orderBy, direction, genre, discounted } = req.query;
 
         // Preparo la query di base
         let query = 'SELECT * FROM products WHERE 1=1';
         const params = [];
 
-        // Se è specificato un termine di ricerca, aggiungo la condizione per l'autocomplete
+        // Filtro per termine di ricerca (autocomplete)
         if (term && term.trim() !== '') {
             query += ' AND LOWER(name) LIKE LOWER(?)';
             params.push(term + '%');
+        }
+
+        // Filtro per genere
+        if (genre && genre.trim() !== '') {
+            query += ' AND genre LIKE ?';
+            params.push(`%${genre}%`);
+        }
+
+        // Filtro per prodotti scontati
+        if (discounted === 'true') {
+            query += ' AND discount > 0';
         }
 
         // Gestisco l'ordinamento
@@ -388,10 +399,16 @@ const advancedSearch = (req, res) => {
                 const sortDirection = direction === 'desc' ? 'DESC' : 'ASC';
                 query += ` ORDER BY ${field} ${sortDirection}`;
             }
+        } else if (discounted === 'true') {
+            // Ordinamento predefinito per prodotti scontati: sconto decrescente
+            query += ' ORDER BY discount DESC';
         } else {
-            // Ordinamento predefinito
+            // Ordinamento predefinito generale: nome ascendente
             query += ' ORDER BY name ASC';
         }
+
+        // Limito i risultati a 100 per evitare overload
+        query += ' LIMIT 100';
 
         // Eseguo la query
         connection.query(query, params, (error, results) => {
