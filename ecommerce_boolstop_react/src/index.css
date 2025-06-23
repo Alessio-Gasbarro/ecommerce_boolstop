@@ -584,6 +584,7 @@ header {
 
 .text-center {
     text-align: center;
+    margin-bottom: 30px;
 }
 
 .btn:hover {
@@ -1221,22 +1222,37 @@ a {
     .checkout-form button {
         max-width: 100%;
     }
+
+    .search-bar {
+        width: 20%;
+    }
+
+    .game-title2 {
+        font-size: 17px;
+    }
+
+    .biggerbuy {
+        font-size: 18px;
+    }
+
+    .margin {
+        margin-left: 20%;
+    }
+}
+
+@media (max-width: 660px) {
+    .search-bar {
+        display: none;
+    }
+
+    .price-display h3 {
+        font-size: 20px;
+    }
+
+    .game-card-horizontal {
+        width: 100%;
+        height: 245px;
+    }
 }
 
 /*Funzione Pulsanti fondo pagina Wishlist&Cart*/
-
-.search-bar {
-    width: 20%;
-}
-
-.game-title2 {
-    font-size: 22px;
-}
-
-.biggerbuy {
-    font-size: 18px;
-}
-
-.margin {
-    margin-left: 20%;
-}
