@@ -22,20 +22,30 @@ export default function Home() {
 
     // funzione che effettua una chiamata ajax per i giochi in offerta
     const fetchSaleGames = () => {
-        axios.get('http://localhost:3000/api/games/discounted').then((resp) => {
-            setSaleGames(resp.data)
-        }).catch((err) => { console.log(err) })
-    }
+        axios
+            .get('http://localhost:3000/api/games/advanced-search?discounted=true')
+            .then((resp) => {
+                setSaleGames(resp.data.results || []);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
 
     // variabile che contiene gli utlimi arrivi
     const [latestGames, setLatestGames] = useState([]);
 
     // funzione che recupera gli ultimi arrivi 
     const fetchLatestGames = () => {
-        axios.get('http://localhost:3000/api/games/new-releases?limit=4').then((resp) => {
-            setLatestGames(resp.data)
-        }).catch((err) => { console.log(err) })
-    }
+        axios
+            .get('http://localhost:3000/api/games/advanced-search?orderBy=release_date&direction=desc&limit=4')
+            .then((resp) => {
+                setLatestGames(resp.data.results || []);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
 
     useEffect(() => { fetchSaleGames(); fetchLatestGames(); }, []);
 
@@ -69,7 +79,7 @@ export default function Home() {
 
                 <div className="cards-container">
                     {latestGames.map((game) => (
-                        <Link to={`/all/${game.id}`} key={game.id} className="game-card-link">
+                        <Link to={`/all/${game.slug}`} key={game.id} className="game-card-link">
                             <div className="game-card" key={game.name}>
                                 <img src={game.image} alt={game.name} className="game-image" />
                                 <div className="game-content">
@@ -111,7 +121,7 @@ export default function Home() {
 
                 <div className="cards-container">
                     {saleGames.map((game) => (
-                        <Link to={`/all/${game.id}`} key={game.id} className="game-card-link">
+                        <Link to={`/all/${game.slug}`} key={game.id} className="game-card-link">
                             <div className="game-card" key={game.id}>
                                 <img src={game.image} alt={game.name} className="game-image" />
                                 <div className="game-content">

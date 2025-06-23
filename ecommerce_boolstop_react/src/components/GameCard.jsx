@@ -20,6 +20,7 @@ export default function GameCard({ game }) {
         ? price / (1 - discount / 100)
         : price;
 
+
     return (
         <div className="game-card-horizontal">
             <img

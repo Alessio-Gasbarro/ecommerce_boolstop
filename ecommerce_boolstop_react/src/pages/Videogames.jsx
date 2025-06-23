@@ -4,6 +4,12 @@ import GameCard from '../components/GameCard';
 
 export default function Videogames() {
 
+
+    const [selectedGenre, setSelectedGenre] = useState('');
+    const [showDiscounted, setShowDiscounted] = useState(false);
+    const [minPrice, setMinPrice] = useState('');
+    const [maxPrice, setMaxPrice] = useState('');
+
     // gestione giochi
     const [games, setGames] = useState([]);
     // gestione caricamento
@@ -47,7 +53,15 @@ export default function Videogames() {
         if (searchTerm) return; // Non caricare se stai cercando
         setLoading(true);
         const { orderBy, direction } = getOrderParams(sortType);
-        axios.get(`/api/games/advanced-search?orderBy=${orderBy}&direction=${direction}`)
+
+        // Costruisci la query dinamicamente
+        let query = `/api/games/advanced-search?orderBy=${orderBy}&direction=${direction}`;
+        if (selectedGenre) query += `&genre=${encodeURIComponent(selectedGenre)}`;
+        if (showDiscounted) query += `&discounted=true`;
+        if (minPrice) query += `&minPrice=${minPrice}`;
+        if (maxPrice) query += `&maxPrice=${maxPrice}`;
+
+        axios.get(query)
             .then(response => {
                 setGames(response.data.results || []);
                 setLoading(false);
@@ -56,7 +70,7 @@ export default function Videogames() {
                 setError(err.message);
                 setLoading(false);
             });
-    }, [sortType, searchTerm]);
+    }, [sortType, searchTerm, selectedGenre, showDiscounted, minPrice, maxPrice]);
 
     // indice di inizio e fine per la paginazione
     const startIndex = (currentPage - 1) * gamesPerPage;
@@ -72,7 +86,12 @@ export default function Videogames() {
             setSearchResults([]);
             setLoading(true);
             const { orderBy, direction } = getOrderParams(sortType);
-            axios.get(`/api/games/advanced-search?orderBy=${orderBy}&direction=${direction}`)
+            let query = `/api/games/advanced-search?orderBy=${orderBy}&direction=${direction}`;
+            if (selectedGenre) query += `&genre=${encodeURIComponent(selectedGenre)}`;
+            if (showDiscounted) query += `&discounted=true`;
+            if (minPrice) query += `&minPrice=${minPrice}`;
+            if (maxPrice) query += `&maxPrice=${maxPrice}`;
+            axios.get(query)
                 .then(response => {
                     setGames(response.data.results || []);
                     setLoading(false);
@@ -81,7 +100,12 @@ export default function Videogames() {
         }
         setSearching(true);
         try {
-            const res = await axios.get(`/api/games/advanced-search?term=${encodeURIComponent(value)}`);
+            let query = `/api/games/advanced-search?term=${encodeURIComponent(value)}`;
+            if (selectedGenre) query += `&genre=${encodeURIComponent(selectedGenre)}`;
+            if (showDiscounted) query += `&discounted=true`;
+            if (minPrice) query += `&minPrice=${minPrice}`;
+            if (maxPrice) query += `&maxPrice=${maxPrice}`;
+            const res = await axios.get(query);
             setSearchResults(res.data.results || []);
             setGames(res.data.results || []);
             setCurrentPage(1);
@@ -177,6 +201,43 @@ export default function Videogames() {
                             <option value="27">27</option>
                         </select>
                     </div>
+                </div>
+
+                <div className="filter-section" style={{ marginBottom: 24 }}>
+                    <label>Genere:</label>
+                    <select value={selectedGenre} onChange={e => setSelectedGenre(e.target.value)}>
+                        <option value="">Tutti</option>
+                        <option value="RPG">RPG</option>
+                        <option value="Azione">Azione</option>
+                        <option value="Sport">Sport</option>
+                        {/* ...altri generi... */}
+                    </select>
+
+                    <label style={{ marginLeft: 16 }}>
+                        <input
+                            type="checkbox"
+                            checked={showDiscounted}
+                            onChange={e => setShowDiscounted(e.target.checked)}
+                        />
+                        Solo scontati
+                    </label>
+
+                    <label style={{ marginLeft: 16 }}>Prezzo min:</label>
+                    <input
+                        type="number"
+                        value={minPrice}
+                        onChange={e => setMinPrice(e.target.value)}
+                        style={{ width: 60 }}
+                        min={0}
+                    />
+                    <label style={{ marginLeft: 8 }}>Prezzo max:</label>
+                    <input
+                        type="number"
+                        value={maxPrice}
+                        onChange={e => setMaxPrice(e.target.value)}
+                        style={{ width: 60 }}
+                        min={0}
+                    />
                 </div>
 
                 {loading && <div className="loading">Caricamento in corso...</div>}

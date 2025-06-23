@@ -359,7 +359,7 @@ const searchAutocomplete = (req, res) => {
 const advancedSearch = (req, res) => {
     try {
         // Estraggo tutti i parametri dalla query
-        const { term, orderBy, direction, genre, discounted } = req.query;
+        const { term, orderBy, direction, genre, discounted, minPrice, maxPrice } = req.query;
 
         // Preparo la query di base
         let query = 'SELECT * FROM products WHERE 1=1';
@@ -369,6 +369,18 @@ const advancedSearch = (req, res) => {
         if (term && term.trim() !== '') {
             query += ' AND LOWER(name) LIKE LOWER(?)';
             params.push(term + '%');
+        }
+
+        // Filtro per prezzo minimo
+        if (minPrice && !isNaN(parseFloat(minPrice))) {
+            query += ' AND price >= ?';
+            params.push(parseFloat(minPrice));
+        }
+
+        // Filtro per prezzo massimo
+        if (maxPrice && !isNaN(parseFloat(maxPrice))) {
+            query += ' AND price <= ?';
+            params.push(parseFloat(maxPrice));
         }
 
         // Filtro per genere
@@ -407,8 +419,12 @@ const advancedSearch = (req, res) => {
             query += ' ORDER BY name ASC';
         }
 
-        // Limito i risultati a 100 per evitare overload
-        query += ' LIMIT 100';
+        // Gestione del limite personalizzato
+        let limit = 100;
+        if (req.query.limit && !isNaN(parseInt(req.query.limit))) {
+            limit = Math.min(parseInt(req.query.limit), 100); // massimo 100 per sicurezza
+        }
+        query += ` LIMIT ${limit}`;
 
         // Eseguo la query
         connection.query(query, params, (error, results) => {
