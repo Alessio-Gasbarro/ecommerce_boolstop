@@ -1267,7 +1267,7 @@ a {
     }
 }
 
-@media (max-width: 450px) {
+@media (max-width: 451px) {
     i.fas.fa-star {
         display: none;
     }
