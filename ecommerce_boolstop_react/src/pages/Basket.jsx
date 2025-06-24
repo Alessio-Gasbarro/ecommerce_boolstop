@@ -3,6 +3,7 @@ import useCart from '../hooks/useCart';
 import axios from 'axios';
 import emailjs from '@emailjs/browser';
 import Suggested from '../components/Suggested';
+import { Link } from 'react-router-dom';
 
 const Basket = () => {
     const { cart, addToCart, removeFromCart, clearCart, setQuantity } = useCart();
@@ -121,6 +122,7 @@ const Basket = () => {
                     {cart.length === 0 ? (
                         <div className="empty-wishlist">
                             <p>Il carrello è vuoto.</p>
+                            <Link to={`/all`} className="go-back-fancy">Esplora!</Link>
                         </div>
                     ) : (
                         <div className="wishlist-grid">
@@ -193,6 +195,13 @@ const Basket = () => {
             {saleGames.length > 0 && (
                 <Suggested saleGames={saleGames} addToCart={addToCart} />
             )}
+
+            <div className="go-back-wrapper">
+                <div className="go-back-buttons">
+                    <Link to={`/all`} className="go-back-fancy">Esplora altro</Link>
+                    <Link to={`/`} className="go-back-fancy">Torna a HomePage</Link>
+                </div>
+            </div>
         </>
     );
 };
