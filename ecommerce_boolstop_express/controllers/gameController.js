@@ -84,7 +84,18 @@ const store = (req, res) => {
     } = req.body;
 
     // Verifico che siano presenti tutti i campi obbligatori
-    if (!total_price || !shipment_price || !status || !name || !surname || !address || !email || !phone || !items || !Array.isArray(items)) {
+    if (
+        total_price === undefined ||
+        shipment_price === undefined ||
+        !status ||
+        !name ||
+        !surname ||
+        !address ||
+        !email ||
+        !phone ||
+        !items ||
+        !Array.isArray(items)
+    ) {
         return res.status(400).json({
             success: false,
             message: 'Dati mancanti. Tutti i campi sono obbligatori.'

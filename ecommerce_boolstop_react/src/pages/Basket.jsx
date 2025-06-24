@@ -56,10 +56,29 @@ const Basket = () => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
+    console.log('Invio ordine:', {
+        ...form,
+        items: cart.map(item => ({
+            id_product: item.id,
+            quantity: item.quantity
+        }))
+    });
+
     const handleOrder = async e => {
         e.preventDefault();
         if (cart.length === 0) {
             setMessage('Il carrello è vuoto.');
+            return;
+        }
+        // Controllo frontend per tutti i campi obbligatori
+        if (
+            !form.name.trim() ||
+            !form.surname.trim() ||
+            !form.address.trim() ||
+            !form.email.trim() ||
+            !form.phone.trim()
+        ) {
+            setMessage('Compila tutti i campi!');
             return;
         }
 
@@ -79,28 +98,6 @@ const Basket = () => {
             });
 
             if (res.status === 201) {
-                const orderDetails = cart.map(item => {
-                    return `• ${item.name} (x${item.quantity}) - €${getDiscountedPrice(item)}`;
-                }).join('\n');
-
-                await emailjs.send(
-                    import.meta.env.VITE_EMAILJS_SERVICE_ID,
-                    import.meta.env.VITE_EMAILJS_TEMPLATE_ID_ORDER,
-                    {
-                        user_name: form.name,
-                        user_surname: form.surname,
-                        user_address: form.address,
-                        user_email: form.email,
-                        user_phone: form.phone,
-                        order_details: orderDetails,
-                        total_price: total,
-                        shipment_info: isFreeShipping ? 'Spedizione Gratuita' : 'Costi di spedizione applicati'
-                    },
-                    import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-                );
-
-                setMessage('Ordine inviato con successo! Riceverai un\'email di conferma.');
-                clearCart();
             } else {
                 setMessage('Errore durante l\'invio dell\'ordine.');
             }
