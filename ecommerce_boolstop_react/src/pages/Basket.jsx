@@ -66,11 +66,12 @@ const Basket = () => {
 
     const handleOrder = async e => {
         e.preventDefault();
+
         if (cart.length === 0) {
             setMessage('Il carrello è vuoto.');
             return;
         }
-        // Controllo frontend per tutti i campi obbligatori
+
         if (
             !form.name.trim() ||
             !form.surname.trim() ||
@@ -97,7 +98,29 @@ const Basket = () => {
                 }))
             });
 
+
             if (res.status === 201) {
+                // invio email
+                emailjs.send(
+                    import.meta.env.VITE_EMAILJS_SERVICE_ID,
+                    import.meta.env.VITE_EMAILJS_TEMPLATE_ID_ORDER,
+                    {
+                        user_name: form.name,
+                        user_surname: form.surname,
+                        user_address: form.address,
+                        user_email: form.email,
+                        user_phone: form.phone,
+                        total_price: total,
+                        order_details: cart.map(item => `${item.name} x${item.quantity}`).join(', ')
+                    },
+                    import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+                ).then(() => {
+                    setMessage('Ordine inviato con successo! Controlla la tua email.');
+                    clearCart();
+                }).catch((error) => {
+                    console.error('Errore invio email:', error);
+                    setMessage('Errore nell\'invio dell\'email.');
+                });
             } else {
                 setMessage('Errore durante l\'invio dell\'ordine.');
             }
@@ -105,6 +128,7 @@ const Basket = () => {
             setMessage(err.response?.data?.message || 'Errore di rete.');
         }
     };
+
 
     return (
         <>
