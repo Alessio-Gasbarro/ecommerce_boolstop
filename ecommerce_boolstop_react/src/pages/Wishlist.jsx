@@ -13,7 +13,7 @@ const Wishlist = () => {
 
 
     const fetchSaleGames = () => {
-        axios.get('http://localhost:3000/api/games/discounted')
+        axios.get('http://localhost:3000/api/games/new-releases?limit=4')
             .then(resp => {
                 setSaleGames(resp.data);
             })

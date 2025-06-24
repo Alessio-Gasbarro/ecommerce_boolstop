@@ -20,7 +20,7 @@ const Basket = () => {
 
     //fetch giochi in offerta
     const fetchSaleGames = () => {
-        axios.get('http://localhost:3000/api/games/discounted')
+        axios.get('http://localhost:3000/api/games/new-releases?limit=4')
             .then((resp) => {
                 console.log('Giochi in offerta:', resp.data);
                 setSaleGames(resp.data);
