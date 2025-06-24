@@ -298,14 +298,13 @@ header {
 
 .current-price {
     font-weight: bold;
-    font-size: 18px;
+    font-size: 24px;
 }
 
-.original-price {
-    font-size: 12px;
+.original-price2 {
+    font-size: 18px;
     color: #999;
     text-decoration: line-through;
-    font-size: 14px;
 }
 
 /* Bottone */
@@ -1133,6 +1132,11 @@ a {
     cursor: pointer;
 }
 
+.empty-wishlist {
+    text-align: center;
+    font-size: 32px;
+}
+
 /*CHECKOUT FORM*/
 .checkout-form {
     max-width: 1000px;
@@ -1288,4 +1292,126 @@ a {
         width: 100%;
         height: 245px;
     }
+}
+
+/*TASTI TORNA INDIETRO/HOME*/
+.go-back-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.go-back-buttons {
+    display: inline-flex;
+    gap: 1rem;
+    background: rgba(31, 31, 31, 0.9);
+    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+    padding: 1.5rem;
+}
+
+.go-back-fancy {
+    background: linear-gradient(45deg, #00ffff, #ff00ff);
+    background-size: 200% 200%;
+    color: white;
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    font-weight: bold;
+    transition: background-position 0.5s, transform 0.2s;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    font-size: 20px;
+}
+
+.go-back-fancy:hover {
+    background-position: right center;
+    transform: scale(1.05);
+}
+
+/*SEZIONE FILTRI INPUT VIDEOGAME*/
+.mbf-filters-wrapper {
+    background: rgba(31, 31, 31, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+    margin: 2rem auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.mbf-search-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 10px;
+}
+
+.mbf-search-input {
+    padding: 0.6rem 1rem;
+    width: 250px;
+    border: none;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+}
+
+.mbf-clear-search-button {
+    background: linear-gradient(45deg, #00ffff, #ff00ff);
+    background-size: 200% 200%;
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1rem;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: background-position .4s ease, transform .2s;
+}
+
+.mbf-clear-search-button:hover {
+    background-position: right center;
+    transform: scale(1.05);
+}
+
+.mbf-sort-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.mbf-filter-section {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    padding-bottom: 10px;
+}
+
+.mbf-label-inline {
+    font-weight: 500;
+}
+
+.mbf-styled-select {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    border: none;
+    font-size: 1rem;
+}
+
+.mbf-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.mbf-price-range {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.mbf-price-input {
+    width: 60px;
+    padding: 0.3rem 0.5rem;
+    border-radius: 0.5rem;
+    border: none;
 }

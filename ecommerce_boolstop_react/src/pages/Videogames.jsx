@@ -89,86 +89,99 @@ export default function Videogames() {
             </div>
 
             {/* SEARCH */}
-            <div className="search-section" style={{ marginBottom: 24 }}>
-                <input
-                    type="text"
-                    placeholder="Cerca per nome..."
-                    value={searchTerm}
-                    onChange={(e) => updateParams({ term: e.target.value, page: 1 })}
-                    style={{ padding: '8px', width: '250px', marginRight: '16px' }}
-                />
-                {searchTerm && (
-                    <button onClick={() => updateParams({ term: '', page: 1 })}>
-                        Torna all'elenco
-                    </button>
-                )}
-            </div>
+            <div className="mbf-filters-wrapper">
+                <div className="mbf-search-section">
+                    <input
+                        type="text"
+                        placeholder="Cerca per nome..."
+                        value={searchTerm}
+                        onChange={(e) => updateParams({ term: e.target.value, page: 1 })}
+                        className="mbf-search-input"
+                    />
+                    {searchTerm && (
+                        <button
+                            className="mbf-clear-search-button"
+                            onClick={() => updateParams({ term: '', page: 1 })}
+                        >
+                            Torna all'elenco
+                        </button>
+                    )}
+                </div>
 
-            {/* SORTING */}
-            <div className="sort-section" style={{ marginBottom: 24 }}>
-                <label>Ordina per:</label>
-                <select value={sortType} onChange={(e) => updateParams({ sort: e.target.value, page: 1 })}>
-                    <option value="title-asc">Nome (A-Z)</option>
-                    <option value="title-desc">Nome (Z-A)</option>
-                    <option value="price-asc">Prezzo crescente</option>
-                    <option value="price-desc">Prezzo decrescente</option>
-                    <option value="release-date-desc">Più recente</option>
-                    <option value="release-date-asc">Più vecchio</option>
-                    <option value="discount-desc">Sconto maggiore</option>
-                    <option value="discount-asc">Sconto minore</option>
-                </select>
+                {/* SORTING */}
+                <div className="mbf-sort-section">
+                    <label>Ordina per:</label>
+                    <select
+                        value={sortType}
+                        onChange={(e) => updateParams({ sort: e.target.value, page: 1 })}
+                        className="mbf-styled-select"
+                    >
+                        <option value="title-asc">Nome (A-Z)</option>
+                        <option value="title-desc">Nome (Z-A)</option>
+                        <option value="price-asc">Prezzo crescente</option>
+                        <option value="price-desc">Prezzo decrescente</option>
+                        <option value="release-date-desc">Più recente</option>
+                        <option value="release-date-asc">Più vecchio</option>
+                        <option value="discount-desc">Sconto maggiore</option>
+                        <option value="discount-asc">Sconto minore</option>
+                    </select>
 
-                <div className="sort-section margin">
                     <label>Videogiochi per pagina:</label>
                     <select
                         value={gamesPerPage}
                         onChange={(e) => updateParams({ limit: e.target.value, page: 1 })}
+                        className="mbf-styled-select"
                     >
                         <option value="9">9</option>
                         <option value="18">18</option>
                         <option value="27">27</option>
                     </select>
                 </div>
-            </div>
 
-            {/* FILTERS */}
-            <div className="filter-section" style={{ marginBottom: 24 }}>
-                <label>Genere:</label>
-                <select
-                    value={selectedGenre}
-                    onChange={(e) => updateParams({ genre: e.target.value, page: 1 })}
-                >
-                    <option value="">Tutti</option>
-                    <option value="RPG">RPG</option>
-                    <option value="Azione">Azione</option>
-                    <option value="Sport">Sport</option>
-                </select>
+                {/* FILTERS */}
+                <div className="mbf-filter-section">
+                    <label>Genere:</label>
+                    <select
+                        value={selectedGenre}
+                        onChange={(e) => updateParams({ genre: e.target.value, page: 1 })}
+                        className="mbf-styled-select"
+                    >
+                        <option value="">Tutti</option>
+                        <option value="RPG">RPG</option>
+                        <option value="Azione">Azione</option>
+                        <option value="Sport">Sport</option>
+                    </select>
 
-                <label style={{ marginLeft: 16 }}>
-                    <input
-                        type="checkbox"
-                        checked={showDiscounted}
-                        onChange={(e) => updateParams({ discounted: e.target.checked })}
-                    />
-                    Solo scontati
-                </label>
+                    <label className="mbf-checkbox-label">
+                        <input
+                            type="checkbox"
+                            checked={showDiscounted}
+                            onChange={(e) => updateParams({ discounted: e.target.checked })}
+                        />
+                        Solo scontati
+                    </label>
 
-                <label style={{ marginLeft: 16 }}>Prezzo min:</label>
-                <input
-                    type="number"
-                    value={minPrice}
-                    onChange={(e) => updateParams({ minPrice: e.target.value })}
-                    style={{ width: 60 }}
-                    min={0}
-                />
-                <label style={{ marginLeft: 8 }}>Prezzo max:</label>
-                <input
-                    type="number"
-                    value={maxPrice}
-                    onChange={(e) => updateParams({ maxPrice: e.target.value })}
-                    style={{ width: 60 }}
-                    min={0}
-                />
+                    <div className="mbf-price-range">
+                        <label>Prezzo min:</label>
+                        <input
+                            type="number"
+                            value={minPrice}
+                            onChange={(e) => updateParams({ minPrice: e.target.value })}
+                            style={{ width: 60 }}
+                            min={0}
+                            className="mbf-price-input"
+                        />
+                        <label>Prezzo max:</label>
+                        <input
+                            type="number"
+                            value={maxPrice}
+                            onChange={(e) => updateParams({ maxPrice: e.target.value })}
+                            style={{ width: 60 }}
+                            min={0}
+                            className="mbf-price-input"
+                        />
+                    </div>
+                </div>
             </div>
 
             {/* LOADING / ERROR / RESULTS */}
@@ -212,5 +225,5 @@ export default function Videogames() {
                 </button>
             </div>
         </section>
-    );
+    )
 }

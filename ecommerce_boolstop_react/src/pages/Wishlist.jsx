@@ -40,7 +40,8 @@ const Wishlist = () => {
                 <div className="wishlist-content">
                     {isWishlistEmpty ? (
                         <div className="empty-wishlist">
-                            <p>La tua lista dei desideri è vuota. Aggiungi un gioco per iniziare!</p>
+                            <p>La tua lista dei desideri è vuota.</p>
+                            <Link to={`/all`} className="go-back-fancy">Esplora!</Link>
                         </div>
                     ) : (
                         <div className="wishlist-grid">
@@ -76,9 +77,11 @@ const Wishlist = () => {
                 <Suggested saleGames={saleGames} addToCart={addToCart} />
             )}
 
-            <div className="most-wanted-section">
-                <Link to={`/all`} className="">Esplora altro</Link>
-                <Link to={`/`} className="">Torna a HomePage</Link>
+            <div className="go-back-wrapper">
+                <div className="go-back-buttons">
+                    <Link to={`/all`} className="go-back-fancy">Esplora altro</Link>
+                    <Link to={`/`} className="go-back-fancy">Torna a HomePage</Link>
+                </div>
             </div>
         </>
     );

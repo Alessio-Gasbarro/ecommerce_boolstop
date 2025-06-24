@@ -4,6 +4,7 @@ import axios from 'axios';
 import useCart from '../hooks/useCart';
 import SingleGameCard from '../components/SingleGameCard';
 import Suggested from '../components/Suggested';
+import { Link } from 'react-router-dom';
 
 export default function SingleGame() {
     const { slug } = useParams();
@@ -34,6 +35,13 @@ export default function SingleGame() {
 
             {/* Sezione prodotti suggeriti */}
             <Suggested saleGames={saleGames} addToCart={addToCart} />
+
+            <div className="go-back-wrapper">
+                <div className="go-back-buttons">
+                    <Link to={`/all`} className="go-back-fancy">Esplora altro</Link>
+                    <Link to={`/`} className="go-back-fancy">Torna a HomePage</Link>
+                </div>
+            </div>
         </>
     );
 }

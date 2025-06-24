@@ -22,7 +22,7 @@ const Suggested = ({ saleGames, addToCart }) => {
                                         €{(game.price * (1 - game.discount)).toFixed(2)}
                                     </span>
                                     {game.discount > 0 && (
-                                        <span className="original-price">
+                                        <span className="original-price2">
                                             €{Number(game.price).toFixed(2)}
                                         </span>
                                     )}
