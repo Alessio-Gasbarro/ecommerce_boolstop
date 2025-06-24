@@ -71,7 +71,7 @@ export default function GameCard({ game }) {
                         Aggiungi <i className="fa-solid fa-cart-plus"></i>
                     </button>
                 )}
-                <button className="add-to-cart-btn biggerbuy" onClick={() => addToWishlist(game)}>Wishlist</button>
+                <button className="add-to-cart-btn biggerbuy" onClick={() => addToWishlist(game)}>Wishlist <i className="fa-solid fa-star"></i></button>
             </div>
         </div>
     );

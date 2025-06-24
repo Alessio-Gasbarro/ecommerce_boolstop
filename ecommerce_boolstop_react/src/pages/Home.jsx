@@ -14,7 +14,7 @@ export default function Home() {
 
     //Questa const Serve per la "Sezione bottone scopri tutti i giochi"
     const cardItems = [
-        { img: videogamesImg, alt: "Videogames", title: "Scopri qui, tutti i VideoGames!", link: "" }
+        { img: videogamesImg, alt: "Videogames", title: "Scopri tutti VideoGames!", link: "" }
     ];
 
     // variabile che contiene i giochi in offerta
