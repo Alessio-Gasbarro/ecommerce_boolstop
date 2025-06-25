@@ -1,7 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useNotification } from './NotificationContext';
 
 const Suggested = ({ saleGames, addToCart }) => {
+    const { setMessage } = useNotification();
+
     return (
         <section className="most-wanted-section">
             <div className="section-header with-lines">
@@ -27,12 +30,17 @@ const Suggested = ({ saleGames, addToCart }) => {
                                         </span>
                                     )}
                                 </div>
-                                <button className="add-to-cart-btn" onClick={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    addToCart(game, 1);
-                                }}
-                                >Aggiungi al Carrello!</button>
+                                <button
+                                    className="add-to-cart-btn"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        addToCart(game, 1);
+                                        setMessage(`🎮 ${game.name} aggiunto con successo! 🎉`);
+                                    }}
+                                >
+                                    Aggiungi al Carrello!
+                                </button>
                                 {game.discount > 0 && (
                                     <div className="discount-tag">
                                         -{Math.round(game.discount * 100)}%

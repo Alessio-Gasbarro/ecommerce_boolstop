@@ -2,15 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import useCart from '../hooks/useCart';
 import useWishlist from '../hooks/useWishlist';
+import { useNotification } from './NotificationContext';
 
 export default function GameCard({ game }) {
-
-    // custom hook per gestire il carrello
     const { cart, addToCart, setQuantity } = useCart();
-    // custom hook per gestire la wishlist
     const { addToWishlist } = useWishlist();
+    const { setMessage } = useNotification();
 
-    // Funzione per controllare se il prodotto è già nel carrello
     const cartItem = cart.find(item => item.id === game.id);
 
     const price = parseFloat(game.price);
@@ -19,7 +17,6 @@ export default function GameCard({ game }) {
     const originalPrice = discount > 0
         ? price / (1 - discount / 100)
         : price;
-
 
     return (
         <div className="game-card-horizontal">
@@ -67,11 +64,25 @@ export default function GameCard({ game }) {
                         </button>
                     </div>
                 ) : (
-                    <button className="add-to-cart-btn biggerbuy" onClick={() => addToCart(game, 1)}>
+                    <button
+                        className="add-to-cart-btn biggerbuy"
+                        onClick={() => {
+                            addToCart(game, 1);
+                            setMessage(`🎮 ${game.name} aggiunto con successo! 🎉`);
+                        }}
+                    >
                         Aggiungi <i className="fa-solid fa-cart-plus"></i>
                     </button>
                 )}
-                <button className="add-to-cart-btn biggerbuy" onClick={() => addToWishlist(game)}>Wishlist <i className="fa-solid fa-star"></i></button>
+                <button
+                    className="add-to-cart-btn biggerbuy"
+                    onClick={() => {
+                        addToWishlist(game);
+                        setMessage(`🎮 ${game.name} aggiunto con successo! 🎉`);
+                    }}
+                >
+                    Wishlist <i className="fa-solid fa-star"></i>
+                </button>
             </div>
         </div>
     );
