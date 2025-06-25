@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import axios from "axios";
 import WelcomePopup from '../components/WelcomePopup';
 import useCart from '../hooks/useCart';
+import { useNotification } from '../components/NotificationContext';
 
 export default function Home() {
 
@@ -16,6 +17,8 @@ export default function Home() {
     const cardItems = [
         { img: videogamesImg, alt: "Videogames", title: "Scopri tutti VideoGames!", link: "" }
     ];
+
+    const { setMessage } = useNotification();
 
     // variabile che contiene i giochi in offerta
     const [saleGames, setSaleGames] = useState([])
@@ -99,6 +102,7 @@ export default function Home() {
                                         e.preventDefault();
                                         e.stopPropagation();
                                         addToCart(game, 1);
+                                        setMessage(`🎮 ${game.name} aggiunto con successo! 🎉`);
                                     }}
                                     >Aggiungi al Carrello!</button>
                                     {game.discount > 0 && (
@@ -140,6 +144,7 @@ export default function Home() {
                                         e.preventDefault();
                                         e.stopPropagation();
                                         addToCart(game, 1);
+                                        setMessage(`🎮 ${game.name} aggiunto con successo! 🎉`);
                                     }}
                                     >Aggiungi al Carrello!</button>
                                     {game.discount > 0 && (

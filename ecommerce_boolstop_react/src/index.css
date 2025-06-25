@@ -279,7 +279,6 @@ header {
     color: inherit;
 }
 
-/* Immagine compatta */
 .game-image {
     object-fit: cover;
     background: linear-gradient(to right, #00ffff, #ff00ff);
@@ -288,9 +287,10 @@ header {
 .game-title {
     font-weight: 700;
     justify-self: center;
+    min-height: 60px;
+    text-align: center;
 }
 
-/* Prezzi */
 .price-section {
     display: flex;
     gap: 8px;
@@ -1572,4 +1572,43 @@ a {
 
 .thankyou-popup-button:hover {
     background-color: #0056b3;
+}
+
+/*FUNZIONE POPUP AGGIUNTA CARRELLO/WISHLIST */
+.toast-message {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #28a745;
+    color: white;
+    padding: 14px 26px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+    animation: fadeinout 3s ease-in-out;
+}
+
+@keyframes fadeinout {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-10px);
+    }
+
+    10% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    90% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-10px);
+    }
 }
