@@ -1,9 +1,14 @@
 /* index.css */
 body {
-    margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #00ffff, #ff00ff);
     color: white;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 /* HEADER */
@@ -385,7 +390,6 @@ header {
 .shipping-banner {
     background-image: url('./assets/jumbotron-fix.png');
     background-size: cover;
-    background-position-y: -300px;
     background-repeat: no-repeat;
     height: 800px;
     width: 100%;
