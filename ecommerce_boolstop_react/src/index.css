@@ -1311,7 +1311,7 @@ a {
 
 @media (max-width: 451px) {
     i.fas.fa-star {
-        display: none;
+        margin-left: 70px;
     }
 
     i.fas.fa-shopping-cart {
@@ -1346,6 +1346,57 @@ a {
 
     .checkout-form {
         margin: 0 auto;
+    }
+
+    .payment-icons {
+        margin-bottom: 29px;
+    }
+
+    .footer-col {
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 430px) {
+    .footer-col {
+        margin-top: 20px;
+    }
+
+    .action-buttons {
+        width: 200px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+        position: relative;
+        left: -110px;
+        bottom: -50px;
+
+    }
+
+    .current-price-large {
+        font-size: 2.2rem;
+    }
+
+    .price-display {
+        width: 300px;
+        border-right: 1px solid #eaeaea;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        justify-content: flex-start;
+    }
+
+    .price-display h3 {
+        font-size: 15px;
+    }
+
+    .mbf-sort-section {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-direction: column;
     }
 }
 
