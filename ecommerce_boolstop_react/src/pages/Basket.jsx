@@ -56,10 +56,30 @@ const Basket = () => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
+    console.log('Invio ordine:', {
+        ...form,
+        items: cart.map(item => ({
+            id_product: item.id,
+            quantity: item.quantity
+        }))
+    });
+
     const handleOrder = async e => {
         e.preventDefault();
+
         if (cart.length === 0) {
             setMessage('Il carrello è vuoto.');
+            return;
+        }
+
+        if (
+            !form.name.trim() ||
+            !form.surname.trim() ||
+            !form.address.trim() ||
+            !form.email.trim() ||
+            !form.phone.trim()
+        ) {
+            setMessage('Compila tutti i campi!');
             return;
         }
 
@@ -78,12 +98,10 @@ const Basket = () => {
                 }))
             });
 
-            if (res.status === 201) {
-                const orderDetails = cart.map(item => {
-                    return `• ${item.name} (x${item.quantity}) - €${getDiscountedPrice(item)}`;
-                }).join('\n');
 
-                await emailjs.send(
+            if (res.status === 201) {
+                // invio email
+                emailjs.send(
                     import.meta.env.VITE_EMAILJS_SERVICE_ID,
                     import.meta.env.VITE_EMAILJS_TEMPLATE_ID_ORDER,
                     {
@@ -92,15 +110,17 @@ const Basket = () => {
                         user_address: form.address,
                         user_email: form.email,
                         user_phone: form.phone,
-                        order_details: orderDetails,
                         total_price: total,
-                        shipment_info: isFreeShipping ? 'Spedizione Gratuita' : 'Costi di spedizione applicati'
+                        order_details: cart.map(item => `${item.name} x${item.quantity}`).join(', ')
                     },
                     import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-                );
-
-                setMessage('Ordine inviato con successo! Riceverai un\'email di conferma.');
-                clearCart();
+                ).then(() => {
+                    setMessage('Ordine inviato con successo! Controlla la tua email.');
+                    clearCart();
+                }).catch((error) => {
+                    console.error('Errore invio email:', error);
+                    setMessage('Errore nell\'invio dell\'email.');
+                });
             } else {
                 setMessage('Errore durante l\'invio dell\'ordine.');
             }
@@ -108,6 +128,7 @@ const Basket = () => {
             setMessage(err.response?.data?.message || 'Errore di rete.');
         }
     };
+
 
     return (
         <>
