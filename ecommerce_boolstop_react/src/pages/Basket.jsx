@@ -18,22 +18,16 @@ const Basket = () => {
 
     const [message, setMessage] = useState('');
     const [saleGames, setSaleGames] = useState([]);
+    const [showPopup, setShowPopup] = useState(false); //Nuovo stato per il popup
 
-    //fetch giochi in offerta
-    const fetchSaleGames = () => {
+    useEffect(() => {
         axios.get('http://localhost:3000/api/games/new-releases?limit=4')
             .then((resp) => {
-                console.log('Giochi in offerta:', resp.data);
                 setSaleGames(resp.data);
             })
             .catch((err) => {
                 console.log('Errore nel fetch dei giochi in sconto:', err);
             });
-    };
-
-    //useEffect per chiamare fetch all'avvio
-    useEffect(() => {
-        fetchSaleGames();
     }, []);
 
     const getDiscountedPrice = (item) =>
@@ -55,14 +49,6 @@ const Basket = () => {
     const handleChange = e => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
-
-    console.log('Invio ordine:', {
-        ...form,
-        items: cart.map(item => ({
-            id_product: item.id,
-            quantity: item.quantity
-        }))
-    });
 
     const handleOrder = async e => {
         e.preventDefault();
@@ -98,9 +84,7 @@ const Basket = () => {
                 }))
             });
 
-
             if (res.status === 201) {
-                // invio email
                 emailjs.send(
                     import.meta.env.VITE_EMAILJS_SERVICE_ID,
                     import.meta.env.VITE_EMAILJS_TEMPLATE_ID_ORDER,
@@ -117,6 +101,7 @@ const Basket = () => {
                 ).then(() => {
                     setMessage('Ordine inviato con successo! Controlla la tua email.');
                     clearCart();
+                    setShowPopup(true); // 👈 Mostra la popup
                 }).catch((error) => {
                     console.error('Errore invio email:', error);
                     setMessage('Errore nell\'invio dell\'email.');
@@ -128,7 +113,6 @@ const Basket = () => {
             setMessage(err.response?.data?.message || 'Errore di rete.');
         }
     };
-
 
     return (
         <>
@@ -223,6 +207,17 @@ const Basket = () => {
                     <Link to={`/`} className="go-back-fancy">Torna a HomePage</Link>
                 </div>
             </div>
+
+            {/* MODALE POPUP DI RINGRAZIAMENTO */}
+            {showPopup && (
+                <div className="thankyou-popup-overlay">
+                    <div className="thankyou-popup-content">
+                        <h2 className="thankyou-popup-title">Grazie per l'acquisto!</h2>
+                        <p className="thankyou-popup-text">Il tuo ordine è stato inviato con successo.</p>
+                        <Link to="/" className="thankyou-popup-button">Torna alla Home</Link>
+                    </div>
+                </div>
+            )}
         </>
     );
 };

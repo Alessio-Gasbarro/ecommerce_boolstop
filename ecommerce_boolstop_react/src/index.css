@@ -1470,3 +1470,55 @@ a {
     border-radius: 0.5rem;
     border: none;
 }
+
+/*SEZIONE POPUP*/
+
+.thankyou-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+.thankyou-popup-content {
+    background: #fff;
+    padding: 40px;
+    border-radius: 16px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+}
+
+.thankyou-popup-title {
+    font-size: 24px;
+    margin-bottom: 16px;
+    color: #333;
+}
+
+.thankyou-popup-text {
+    font-size: 16px;
+    margin-bottom: 24px;
+    color: #555;
+}
+
+.thankyou-popup-button {
+    display: inline-block;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.thankyou-popup-button:hover {
+    background-color: #0056b3;
+}
