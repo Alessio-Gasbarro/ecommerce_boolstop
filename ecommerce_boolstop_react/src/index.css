@@ -179,6 +179,7 @@ header {
 .search-result {
     padding: 8px;
     cursor: pointer;
+    color: black;
 }
 
 .search-result:hover {
